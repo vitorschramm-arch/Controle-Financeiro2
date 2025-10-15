@@ -12,7 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
       measurementId: "G-7X9S01NMWX"
     };
 
-    firebase.initializeApp(firebaseConfig);
+    try {
+        firebase.initializeApp(firebaseConfig);
+    } catch (e) {
+        console.error("Firebase initialization error:", e);
+        document.body.innerHTML = '<div style="color:red; text-align:center; padding-top: 50px;">Erro crítico na inicialização do Firebase. Verifique a configuração e a conexão.</div>';
+        return;
+    }
+    
     const auth = firebase.auth();
     const db = firebase.firestore();
 
@@ -85,29 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const aiInitialState = document.getElementById('ai-initial-state');
     const aiLoadingState = document.getElementById('ai-loading-state');
     const aiResultState = document.getElementById('ai-result-state');
-    const genericModal = document.getElementById('generic-modal');
-    const genericModalTitle = document.getElementById('generic-modal-title');
-    const genericModalMessage = document.getElementById('generic-modal-message');
-    const genericModalInputContainer = document.getElementById('generic-modal-input-container');
-    const genericModalInput = document.getElementById('generic-modal-input');
-    const genericModalButtons = document.getElementById('generic-modal-buttons');
-    const debtManagementModal = document.getElementById('debt-management-modal');
-    const closeDebtManagementModalBtn = document.getElementById('close-debt-management-modal-btn');
-    const debtListContainer = document.getElementById('debt-list-container');
-    const addNewDebtBtn = document.getElementById('add-new-debt-btn');
-    const addEditDebtModal = document.getElementById('add-edit-debt-modal');
-    const closeAddEditDebtModalBtn = document.getElementById('close-add-edit-debt-modal-btn');
-    const addEditDebtModalTitle = document.getElementById('add-edit-debt-modal-title');
-    const debtForm = document.getElementById('debt-form');
-    const debtFormErrorMessage = document.getElementById('debt-form-error-message');
-    const debtDetailsModal = document.getElementById('debt-details-modal');
-    const closeDebtDetailsModalBtn = document.getElementById('close-debt-details-modal-btn');
-    const debtDetailsModalTitle = document.getElementById('debt-details-modal-title');
-    const debtSummaryContainer = document.getElementById('debt-summary-container');
-    const debtAmortizationTableContainer = document.getElementById('debt-amortization-table-container');
-    const simulatePrepaymentBtn = document.getElementById('simulate-prepayment-btn');
-    const confirmPrepaymentBtn = document.getElementById('confirm-prepayment-btn');
-    const prepaymentSimulationResult = document.getElementById('prepayment-simulation-result');
     const overviewIncomeEl = document.getElementById('overview-income');
     const overviewExpensesEl = document.getElementById('overview-expenses');
     const overviewBalanceEl = document.getElementById('overview-balance');
@@ -126,16 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentPendingDate = new Date();
     let selectedTransactionType = null;
     let areValuesVisible = true;
-    let currentSort = { key: 'date', direction: 'desc' };
-    let modalTransactionData = [];
-    let currentFilteredModalData = [];
-    let activeFilters = { type: 'all', category: 'all', startDate: '', endDate: '' };
-    let categoryChartInstance = null;
-    let forecastChartInstance = null;
-    let forecastDataForExport = [];
     let editingTransactionId = null;
-    let editingDebtId = null;
-    let viewingDebtId = null;
     let settings = {};
     let categoryData = {};
     
@@ -143,39 +118,44 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===== 4. LÓGICA DE AUTENTICAÇÃO =====
     // =================================================================
     let isLoginMode = true;
-    toggleAuthModeBtn.addEventListener('click', () => {
-        isLoginMode = !isLoginMode;
-        authTitle.textContent = isLoginMode ? 'Login' : 'Cadastre-se';
-        authSubmitBtn.textContent = isLoginMode ? 'Entrar' : 'Criar Conta';
-        authPromptText.textContent = isLoginMode ? 'Não tem uma conta?' : 'Já tem uma conta?';
-        toggleAuthModeBtn.textContent = isLoginMode ? 'Cadastre-se' : 'Entrar';
-        authError.textContent = '';
-        authForm.reset();
-    });
+    
+    if(toggleAuthModeBtn) {
+        toggleAuthModeBtn.addEventListener('click', () => {
+            isLoginMode = !isLoginMode;
+            if(authTitle) authTitle.textContent = isLoginMode ? 'Login' : 'Cadastre-se';
+            if(authSubmitBtn) authSubmitBtn.textContent = isLoginMode ? 'Entrar' : 'Criar Conta';
+            if(authPromptText) authPromptText.textContent = isLoginMode ? 'Não tem uma conta?' : 'Já tem uma conta?';
+            toggleAuthModeBtn.textContent = isLoginMode ? 'Cadastre-se' : 'Entrar';
+            if(authError) authError.textContent = '';
+            if(authForm) authForm.reset();
+        });
+    }
 
-    authForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const email = authEmailInput.value;
-        const password = authPasswordInput.value;
-        authError.textContent = '';
-        authSubmitBtn.disabled = true;
+    if(authForm) {
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = authEmailInput.value;
+            const password = authPasswordInput.value;
+            if(authError) authError.textContent = '';
+            if(authSubmitBtn) authSubmitBtn.disabled = true;
 
-        if (isLoginMode) {
-            auth.signInWithEmailAndPassword(email, password)
-                .catch(error => { authError.textContent = "Email ou senha inválidos."; })
-                .finally(() => { authSubmitBtn.disabled = false; });
-        } else {
-            auth.createUserWithEmailAndPassword(email, password)
-                .catch(error => {
-                    authError.textContent = error.code === 'auth/email-already-in-use' ? "Este email já está em uso." : "Erro ao criar conta. Verifique os dados.";
-                })
-                .finally(() => { authSubmitBtn.disabled = false; });
-        }
-    });
+            if (isLoginMode) {
+                auth.signInWithEmailAndPassword(email, password)
+                    .catch(error => { if(authError) authError.textContent = "Email ou senha inválidos."; })
+                    .finally(() => { if(authSubmitBtn) authSubmitBtn.disabled = false; });
+            } else {
+                auth.createUserWithEmailAndPassword(email, password)
+                    .catch(error => {
+                        if(authError) authError.textContent = error.code === 'auth/email-already-in-use' ? "Este email já está em uso." : "Erro ao criar conta. Verifique os dados.";
+                    })
+                    .finally(() => { if(authSubmitBtn) authSubmitBtn.disabled = false; });
+            }
+        });
+    }
 
-    logoutBtn.addEventListener('click', () => {
-        auth.signOut();
-    });
+    if(logoutBtn) {
+        logoutBtn.addEventListener('click', () => auth.signOut());
+    }
 
     // =================================================================
     // ===== 5. OBSERVADOR DE ESTADO DE AUTENTICAÇÃO =====
@@ -183,13 +163,13 @@ document.addEventListener('DOMContentLoaded', () => {
     auth.onAuthStateChanged(user => {
         if (user) {
             currentUser = user;
-            authOverlay.classList.add('hidden');
-            appContainer.classList.remove('opacity-0');
+            if(authOverlay) authOverlay.classList.add('hidden');
+            if(appContainer) appContainer.classList.remove('opacity-0');
             initializeApp();
         } else {
             currentUser = null;
-            authOverlay.classList.remove('hidden');
-            appContainer.classList.add('opacity-0');
+            if(authOverlay) authOverlay.classList.remove('hidden');
+            if(appContainer) appContainer.classList.add('opacity-0');
             resetAppState();
         }
     });
@@ -204,7 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
             await userDocRef.set({ transactions, fixedTransactionTemplates, categoryData, settings, debts });
         } catch (error) { 
             console.error("Erro ao salvar dados no Firebase:", error);
-            // showGenericModal({type: 'alert', title: 'Erro de Salvamento', message: 'Não foi possível salvar seus dados na nuvem.'});
         }
     };
 
@@ -221,27 +200,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 categoryData = data.categoryData || { 'entrada': { 'Salário': ['Adiantamento', 'Salário Mensal', 'Bônus', 'Férias'],'Investimentos': ['Dividendos', 'Venda de Ativos', 'Juros'],'Outras Receitas': ['Freelance', 'Vendas', 'Presente', 'Reembolso']}, 'saida': {'Alimentação': ['Supermercado', 'Restaurante', 'Delivery', 'Lanche'],'Moradia': ['Aluguel', 'Condomínio', 'Luz', 'Água', 'Internet', 'Gás', 'Manutenção'],'Transporte': ['Combustível', 'App de Transporte', 'Transporte Público', 'Manutenção Veículo'],'Lazer': ['Cinema', 'Shows', 'Viagens', 'Hobbies', 'Streaming'],'Saúde': ['Farmácia', 'Consulta', 'Plano de Saúde', 'Academia'],'Educação': ['Cursos', 'Livros', 'Mensalidade'],'Compras': ['Roupas', 'Eletrônicos', 'Casa', 'Pets'],'Dívidas': ['Parcela Empréstimo', 'Parcela Financiamento'],'Outras Despesas': ['Impostos', 'Presentes', 'Doações', 'Serviços']}, 'investimento': {'Renda Fixa': ['CDB', 'Tesouro Direto', 'LCI/LCA'],'Renda Variável': ['Ações', 'Fundos Imobiliários', 'ETFs'],'Outros': ['Criptomoedas', 'Previdência Privada']} };
                 settings = data.settings || { invoiceClosingDay: 1, savingsGoal: 0, budgets: {} };
             } else {
-                resetAppState();
-                await saveData(); 
+                await resetAppState(true); // Pass true to save after reset
             }
         } catch (error) { 
             console.error("Erro ao carregar dados do Firebase:", error);
-            // showGenericModal({type: 'alert', title: 'Erro ao Carregar', message: 'Não foi possível carregar seus dados da nuvem.'});
         }
     };
     
     // =================================================================
     // ===== 7. INICIALIZAÇÃO E RESET DO APP =====
     // =================================================================
-    const resetAppState = () => {
+    const resetAppState = async (shouldSave = false) => {
         transactions = [];
         fixedTransactionTemplates = [];
         debts = [];
         settings = { invoiceClosingDay: 1, savingsGoal: 0, budgets: {} };
         categoryData = { 'entrada': { 'Salário': ['Adiantamento', 'Salário Mensal', 'Bônus', 'Férias'],'Investimentos': ['Dividendos', 'Venda de Ativos', 'Juros'],'Outras Receitas': ['Freelance', 'Vendas', 'Presente', 'Reembolso']}, 'saida': {'Alimentação': ['Supermercado', 'Restaurante', 'Delivery', 'Lanche'],'Moradia': ['Aluguel', 'Condomínio', 'Luz', 'Água', 'Internet', 'Gás', 'Manutenção'],'Transporte': ['Combustível', 'App de Transporte', 'Transporte Público', 'Manutenção Veículo'],'Lazer': ['Cinema', 'Shows', 'Viagens', 'Hobbies', 'Streaming'],'Saúde': ['Farmácia', 'Consulta', 'Plano de Saúde', 'Academia'],'Educação': ['Cursos', 'Livros', 'Mensalidade'],'Compras': ['Roupas', 'Eletrônicos', 'Casa', 'Pets'],'Dívidas': ['Parcela Empréstimo', 'Parcela Financiamento'],'Outras Despesas': ['Impostos', 'Presentes', 'Doações', 'Serviços']}, 'investimento': {'Renda Fixa': ['CDB', 'Tesouro Direto', 'LCI/LCA'],'Renda Variável': ['Ações', 'Fundos Imobiliários', 'ETFs'],'Outros': ['Criptomoedas', 'Previdência Privada']} };
-        if (document.body.contains(appContainer)) {
-            updateDashboard();
-        }
+        if (shouldSave) await saveData();
+        updateDashboard();
     };
 
     const initializeApp = async () => {
@@ -256,15 +232,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const formatCurrency = (value) => typeof value === 'number' ?
         value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : 'R$ 0,00';
     
-    const formatDate = (dateString) => dateString ?
-        new Date(dateString + 'T00:00:00').toLocaleDateString('pt-BR') : '';
-    
     const updateDashboard = () => {
-        if (!transactions) transactions = [];
-        if (!debts) debts = [];
-        const now = new Date();
-        const currentMonth = now.getMonth();
-        const currentYear = now.getFullYear();
+        if (!currentUser || !appContainer) return; // Don't update if not logged in or app not present
+        
         const completedTransactions = transactions.filter(t => t.status === 'completed');
         
         const totalEntradas = completedTransactions.filter(t => t.type === 'entrada').reduce((acc, t) => acc + t.amount, 0);
@@ -276,11 +246,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return sum + remainingPrincipal;
         }, 0);
         
+        const now = new Date();
         const faturaAtual = completedTransactions.filter(t => {
             const transactionDate = new Date(t.date + 'T00:00:00');
             return t['payment-method'] === 'Cartão de Crédito' &&
-                   transactionDate.getMonth() === currentMonth &&
-                   transactionDate.getFullYear() === currentYear;
+                   transactionDate.getMonth() === now.getMonth() &&
+                   transactionDate.getFullYear() === now.getFullYear();
         }).reduce((acc, t) => acc + t.amount, 0);
         
         if(balanceValueEl) balanceValueEl.textContent = formatCurrency(totalEntradas - totalSaidas);
@@ -300,33 +271,27 @@ document.addEventListener('DOMContentLoaded', () => {
         if(transactionModal) {
             transactionModal.classList.add('hidden');
             if(transactionForm) transactionForm.reset();
-            transactionTypeBtns.forEach(b => b.classList.remove('active'));
+            if(transactionTypeBtns) transactionTypeBtns.forEach(b => b.classList.remove('active'));
             if(isVariableContainer) isVariableContainer.classList.add('hidden');
+            if(paymentMethodContainer) paymentMethodContainer.classList.add('hidden');
             selectedTransactionType = null;
             document.querySelectorAll('.invalid-field').forEach(el => el.classList.remove('invalid-field'));
             if(formErrorMessage) formErrorMessage.classList.add('hidden');
             editingTransactionId = null;
             const headline = document.getElementById('modal-headline');
             if(headline) headline.textContent = 'Nova Transação';
-            if(transactionForm) transactionForm.querySelector('button[type="submit"]').textContent = 'Adicionar Transação';
+            const submitButton = transactionForm ? transactionForm.querySelector('button[type="submit"]') : null;
+            if(submitButton) submitButton.textContent = 'Adicionar Transação';
             if(isFixedCheckbox) isFixedCheckbox.disabled = false;
         }
     };
 
-    // =================================================================
-    // ===== CÓDIGO ADICIONADO PARA CORREÇÃO =====
-    // =================================================================
-
     const openGenericModal = (modalElement) => {
-        if (modalElement) {
-            modalElement.classList.remove('hidden');
-        }
+        if (modalElement) modalElement.classList.remove('hidden');
     };
 
     const closeGenericModal = (modalElement) => {
-        if (modalElement) {
-            modalElement.classList.add('hidden');
-        }
+        if (modalElement) modalElement.classList.add('hidden');
     };
     
     // =================================================================
@@ -349,26 +314,30 @@ document.addEventListener('DOMContentLoaded', () => {
     if(closeForecastModalBtn) closeForecastModalBtn.addEventListener('click', () => closeGenericModal(forecastModal));
     if(forecastModal) forecastModal.addEventListener('click', (e) => { if (e.target === forecastModal) closeGenericModal(forecastModal); });
     
-    transactionTypeBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            transactionTypeBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            selectedTransactionType = btn.dataset.type;
+    if(transactionTypeBtns) {
+        transactionTypeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                transactionTypeBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedTransactionType = btn.dataset.type;
 
-            if (paymentMethodContainer && isVariableContainer) {
-                 if (selectedTransactionType === 'saida') {
-                    paymentMethodContainer.classList.remove('hidden');
-                 } else {
-                    paymentMethodContainer.classList.add('hidden');
-                 }
-                 if (selectedTransactionType === 'entrada') {
-                     isVariableContainer.classList.remove('hidden');
-                 } else {
-                     isVariableContainer.classList.add('hidden');
-                     if(isFixedCheckbox) isFixedCheckbox.checked = false;
-                 }
-            }
+                if (paymentMethodContainer) {
+                     if (selectedTransactionType === 'saida') {
+                        paymentMethodContainer.classList.remove('hidden');
+                     } else {
+                        paymentMethodContainer.classList.add('hidden');
+                     }
+                }
+                if(isVariableContainer) {
+                     if (selectedTransactionType === 'entrada') {
+                         isVariableContainer.classList.remove('hidden');
+                     } else {
+                         isVariableContainer.classList.add('hidden');
+                         if(isFixedCheckbox) isFixedCheckbox.checked = false;
+                     }
+                }
+            });
         });
-    });
+    }
 
 }); // Fim do 'DOMContentLoaded'
