@@ -204,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
             await userDocRef.set({ transactions, fixedTransactionTemplates, categoryData, settings, debts });
         } catch (error) { 
             console.error("Erro ao salvar dados no Firebase:", error);
-            showGenericModal({type: 'alert', title: 'Erro de Salvamento', message: 'Não foi possível salvar seus dados na nuvem.'});
+            // showGenericModal({type: 'alert', title: 'Erro de Salvamento', message: 'Não foi possível salvar seus dados na nuvem.'});
         }
     };
 
@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) { 
             console.error("Erro ao carregar dados do Firebase:", error);
-            showGenericModal({type: 'alert', title: 'Erro ao Carregar', message: 'Não foi possível carregar seus dados da nuvem.'});
+            // showGenericModal({type: 'alert', title: 'Erro ao Carregar', message: 'Não foi possível carregar seus dados da nuvem.'});
         }
     };
     
@@ -283,60 +283,46 @@ document.addEventListener('DOMContentLoaded', () => {
                    transactionDate.getFullYear() === currentYear;
         }).reduce((acc, t) => acc + t.amount, 0);
         
-        balanceValueEl.textContent = formatCurrency(totalEntradas - totalSaidas);
-        investmentsValueEl.textContent = formatCurrency(totalInvestido);
-        invoiceValueEl.textContent = formatCurrency(faturaAtual);
-        debtsValueEl.textContent = formatCurrency(totalDebtBalance); 
-
-        // Supondo que essas funções existam no seu código completo
-        // renderPendingTransactionsOnDashboard();
-        // updateOverviewCard();
+        if(balanceValueEl) balanceValueEl.textContent = formatCurrency(totalEntradas - totalSaidas);
+        if(investmentsValueEl) investmentsValueEl.textContent = formatCurrency(totalInvestido);
+        if(invoiceValueEl) invoiceValueEl.textContent = formatCurrency(faturaAtual);
+        if(debtsValueEl) debtsValueEl.textContent = formatCurrency(totalDebtBalance); 
     };
     
     const openModal = () => { 
-        // A função original para abrir o modal de transação
-        // transactionModal é o ID do seu modal principal de transações
         if(transactionModal) {
             transactionModal.classList.remove('hidden');
-            if (!dateInput.value) dateInput.value = new Date().toISOString().split('T')[0]; 
-            // setDefaultTransactionType(); // Adicione se tiver essa função
+            if (dateInput && !dateInput.value) dateInput.value = new Date().toISOString().split('T')[0]; 
         }
     };
 
     const closeModal = () => {
-        // A função original para fechar o modal de transação
         if(transactionModal) {
             transactionModal.classList.add('hidden');
-            transactionForm.reset();
-            // resetTypeButtons(); // Adicione se tiver essa função
-            isVariableContainer.classList.add('hidden');
+            if(transactionForm) transactionForm.reset();
+            transactionTypeBtns.forEach(b => b.classList.remove('active'));
+            if(isVariableContainer) isVariableContainer.classList.add('hidden');
             selectedTransactionType = null;
             document.querySelectorAll('.invalid-field').forEach(el => el.classList.remove('invalid-field'));
-            formErrorMessage.classList.add('hidden');
+            if(formErrorMessage) formErrorMessage.classList.add('hidden');
             editingTransactionId = null;
-            // O código abaixo assume que esses elementos existem no seu modal
-            // document.getElementById('modal-headline').textContent = 'Nova Transação';
-            // transactionForm.querySelector('button[type="submit"]').textContent = 'Adicionar Transação';
-            isFixedCheckbox.disabled = false;
-            // document.getElementById('is-variable').disabled = false;
+            const headline = document.getElementById('modal-headline');
+            if(headline) headline.textContent = 'Nova Transação';
+            if(transactionForm) transactionForm.querySelector('button[type="submit"]').textContent = 'Adicionar Transação';
+            if(isFixedCheckbox) isFixedCheckbox.disabled = false;
         }
     };
-    
-    // --- (O restante de todas as suas funções originais está aqui) ---
-    // ...
 
     // =================================================================
     // ===== CÓDIGO ADICIONADO PARA CORREÇÃO =====
     // =================================================================
 
-    // Função genérica para abrir um modal
     const openGenericModal = (modalElement) => {
         if (modalElement) {
             modalElement.classList.remove('hidden');
         }
     };
 
-    // Função genérica para fechar um modal
     const closeGenericModal = (modalElement) => {
         if (modalElement) {
             modalElement.classList.add('hidden');
@@ -347,12 +333,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===== 9. EVENT LISTENERS =====
     // =================================================================
     
-    // Listener para o botão principal de adicionar transação
     if(addTransactionBtn) addTransactionBtn.addEventListener('click', openModal);
     if(closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
     if(transactionModal) transactionModal.addEventListener('click', (e) => { if (e.target === transactionModal) closeModal(); });
 
-    // --- Listeners para os Modais do Cabeçalho ---
     if(settingsBtn) settingsBtn.addEventListener('click', () => openGenericModal(settingsModal));
     if(closeSettingsModalBtn) closeSettingsModalBtn.addEventListener('click', () => closeGenericModal(settingsModal));
     if(settingsModal) settingsModal.addEventListener('click', (e) => { if (e.target === settingsModal) closeGenericModal(settingsModal); });
@@ -365,18 +349,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if(closeForecastModalBtn) closeForecastModalBtn.addEventListener('click', () => closeGenericModal(forecastModal));
     if(forecastModal) forecastModal.addEventListener('click', (e) => { if (e.target === forecastModal) closeGenericModal(forecastModal); });
     
-    // --- Listener para os botões de tipo de transação ---
     transactionTypeBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            // Remove a classe 'active' de todos os outros botões
             transactionTypeBtns.forEach(b => b.classList.remove('active'));
-            // Adiciona a classe 'active' apenas ao botão clicado
             btn.classList.add('active');
-            
-            // Armazena o tipo de transação selecionado
             selectedTransactionType = btn.dataset.type;
 
-            // Lógica para mostrar/esconder campos baseada no tipo (exemplo)
             if (paymentMethodContainer && isVariableContainer) {
                  if (selectedTransactionType === 'saida') {
                     paymentMethodContainer.classList.remove('hidden');
@@ -390,12 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
                      if(isFixedCheckbox) isFixedCheckbox.checked = false;
                  }
             }
-           
-            // Se você tiver uma função para atualizar as categorias, chame-a aqui
-            // updateCategories();
         });
     });
-
-    // ... (E todos os outros event listeners do seu código original)
 
 }); // Fim do 'DOMContentLoaded'
