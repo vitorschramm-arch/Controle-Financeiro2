@@ -49,12 +49,6 @@
         <header class="mb-6 flex justify-between items-center">
             <h1 class="text-3xl font-bold text-gray-800">Painel Financeiro</h1>
             <div class="flex items-center space-x-2">
-                <button id="ai-btn" class="text-gray-500 hover:text-gray-800 p-2 rounded-full hover:bg-gray-200 transition-colors" title="Análise com IA">
-                   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
-                </button>
-                <button id="forecast-btn" class="text-gray-500 hover:text-gray-800 p-2 rounded-full hover:bg-gray-200 transition-colors" title="Previsão Futura">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-                </button>
                 <button id="settings-btn" class="text-gray-500 hover:text-gray-800 p-2 rounded-full hover:bg-gray-200 transition-colors" title="Configurações">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0 3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 </button>
@@ -67,69 +61,18 @@
         <main class="space-y-6">
            
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                <div data-card-type="balance" class="bg-white p-5 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="text-gray-500 font-medium">Saldo</h3>
-                            <p id="balance-value" class="text-2xl font-bold text-gray-800 value-visible">R$ 0,00</p>
-                        </div>
-                        <button class="toggle-visibility-btn text-gray-400 hover:text-gray-600">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                        </button>
-                    </div>
-                </div>
-                <div data-card-type="debts" class="bg-white p-5 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow">
-                   <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="text-gray-500 font-medium">Dívidas</h3>
-                            <p id="debts-value" class="text-2xl font-bold text-gray-800 value-visible">R$ 0,00</p>
-                        </div>
-                        <button class="toggle-visibility-btn text-gray-400 hover:text-gray-600">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                        </button>
-                    </div>
-                </div>
-                <div data-card-type="investments" class="bg-white p-5 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="text-gray-500 font-medium">Total Investido</h3>
-                            <p id="investments-value" class="text-2xl font-bold text-gray-800 value-visible">R$ 0,00</p>
-                        </div>
-                        <button class="toggle-visibility-btn text-gray-400 hover:text-gray-600">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                        </button>
-                    </div>
-                </div>
-                <div data-card-type="invoice" class="bg-white p-5 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="text-gray-500 font-medium">Fatura Atual</h3>
-                            <p id="invoice-value" class="text-2xl font-bold text-gray-800 value-visible">R$ 0,00</p>
-                        </div>
-                        <button class="toggle-visibility-btn text-gray-400 hover:text-gray-600">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                        </button>
-                    </div>
-                </div>
+                <div data-card-type="balance" class="bg-white p-5 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow"><h3 class="text-gray-500 font-medium">Saldo</h3><p id="balance-value" class="text-2xl font-bold text-gray-800">R$ 0,00</p></div>
+                <div data-card-type="debts" class="bg-white p-5 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow"><h3 class="text-gray-500 font-medium">Dívidas</h3><p id="debts-value" class="text-2xl font-bold text-gray-800">R$ 0,00</p></div>
+                <div data-card-type="investments" class="bg-white p-5 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow"><h3 class="text-gray-500 font-medium">Total Investido</h3><p id="investments-value" class="text-2xl font-bold text-gray-800">R$ 0,00</p></div>
+                <div data-card-type="invoice" class="bg-white p-5 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow"><h3 class="text-gray-500 font-medium">Fatura Atual</h3><p id="invoice-value" class="text-2xl font-bold text-gray-800">R$ 0,00</p></div>
             </div>
 
             <div class="bg-white p-5 rounded-lg shadow-md">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800">Visão Geral do Mês</h3>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-6">
-                   <div>
-                        <p class="text-sm text-gray-500">Entradas</p>
-                        <p id="overview-income" class="text-xl font-bold text-green-600 value-visible">R$ 0,00</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Saídas</p>
-                        <p id="overview-expenses" class="text-xl font-bold text-red-600 value-visible">R$ 0,00</p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500">Saldo do Mês</p>
-                         <p id="overview-balance" class="text-xl font-bold text-blue-600 value-visible">R$ 0,00</p>
-                    </div>
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Visão Geral do Mês</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                   <div><p class="text-sm text-gray-500">Entradas</p><p id="overview-income" class="text-xl font-bold text-green-600">R$ 0,00</p></div>
+                   <div><p class="text-sm text-gray-500">Saídas</p><p id="overview-expenses" class="text-xl font-bold text-red-600">R$ 0,00</p></div>
+                   <div><p class="text-sm text-gray-500">Saldo do Mês</p><p id="overview-balance" class="text-xl font-bold text-blue-600">R$ 0,00</p></div>
                 </div>
             </div>
         </main>
@@ -151,49 +94,18 @@
                         <button type="button" class="transaction-type-btn border-gray-300" data-type="investimento">Investimento</button>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="amount" class="block text-sm font-medium text-gray-700">Valor</label>
-                            <input type="number" id="amount" step="0.01" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3">
-                        </div>
-                        <div>
-                            <label for="date" class="block text-sm font-medium text-gray-700">Data</label>
-                            <input type="date" id="date" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3">
-                        </div>
+                        <div><label for="amount" class="block text-sm font-medium text-gray-700">Valor</label><input type="number" id="amount" step="0.01" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3"></div>
+                        <div><label for="date" class="block text-sm font-medium text-gray-700">Data</label><input type="date" id="date" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3"></div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="category" class="block text-sm font-medium text-gray-700">Categoria</label>
-                            <select id="category" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3"></select>
-                        </div>
-                        <div>
-                            <label for="subcategory" class="block text-sm font-medium text-gray-700">Subcategoria</label>
-                            <select id="subcategory" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3"></select>
-                        </div>
+                        <div><label for="category" class="block text-sm font-medium text-gray-700">Categoria</label><select id="category" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3"></select></div>
+                        <div><label for="subcategory" class="block text-sm font-medium text-gray-700">Subcategoria</label><select id="subcategory" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3"></select></div>
                     </div>
-                    <div id="payment-method-container" class="hidden">
-                        <label for="payment-method" class="block text-sm font-medium text-gray-700">Método de Pagamento</label>
-                        <select id="payment-method" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3">
-                            <option>Dinheiro</option>
-                            <option>Cartão de Crédito</option>
-                            <option>Cartão de Débito</option>
-                            <option>PIX</option>
-                            <option>Transferência Bancária</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="description" class="block text-sm font-medium text-gray-700">Descrição</label>
-                        <input type="text" id="description" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3">
-                    </div>
-                    <div id="is-recurrent-container" class="hidden">
-                        <label class="flex items-center space-x-2 text-sm font-medium text-gray-700">
-                            <input type="checkbox" id="is-recurrent" class="rounded border-gray-300">
-                            <span>É uma transação recorrente (Ex: Salário, Aluguel)?</span>
-                        </label>
-                    </div>
+                    <div id="payment-method-container" class="hidden"><label for="payment-method" class="block text-sm font-medium text-gray-700">Método de Pagamento</label><select id="payment-method" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3"><option>Dinheiro</option><option>Cartão de Crédito</option><option>Cartão de Débito</option><option>PIX</option><option>Transferência Bancária</option></select></div>
+                    <div><label for="description" class="block text-sm font-medium text-gray-700">Descrição</label><input type="text" id="description" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3"></div>
+                    <div id="is-recurrent-container" class="hidden"><label class="flex items-center space-x-2 text-sm font-medium text-gray-700"><input type="checkbox" id="is-recurrent" class="rounded border-gray-300"><span>É uma transação recorrente?</span></label></div>
                     <p id="form-error-message" class="text-red-500 text-sm text-center hidden h-4"></p>
-                    <div class="pt-4 border-t">
-                        <button type="submit" class="w-full bg-blue-600 text-white py-2.5 rounded-md hover:bg-blue-700 font-semibold">Adicionar Transação</button>
-                    </div>
+                    <div class="pt-4 border-t"><button type="submit" class="w-full bg-blue-600 text-white py-2.5 rounded-md hover:bg-blue-700 font-semibold">Adicionar Transação</button></div>
                 </form>
             </div>
         </div>
@@ -208,26 +120,19 @@
                     <div>
                         <h3 class="text-lg font-semibold text-gray-700 mb-2">Preferências Gerais</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label for="invoice-closing-day" class="block text-sm font-medium text-gray-700">Dia de fechamento da fatura</label>
-                                <input type="number" id="invoice-closing-day" min="1" max="31" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3">
-                            </div>
-                            <div>
+                           <div>
                                 <label for="savings-goal" class="block text-sm font-medium text-gray-700">Meta de economia mensal (R$)</label>
                                 <input type="number" id="savings-goal" step="0.01" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm py-2 px-3">
-                            </div>
+                           </div>
                         </div>
                     </div>
                     <div>
                         <h3 class="text-lg font-semibold text-gray-700 mb-2">Gerenciar Categorias</h3>
-                        <div id="category-management-container" class="border rounded-md p-4 bg-gray-50 min-h-[100px]"></div>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Gerenciamento de Dados</h3>
-                        <div class="flex flex-wrap gap-2">
-                             <button type="button" id="export-all-btn" class="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">Exportar Tudo (JSON)</button>
-                             <label for="import-file-input" class="bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700 cursor-pointer">Importar (JSON)</label>
-                             <input type="file" id="import-file-input" class="hidden" accept=".json">
+                        <div id="category-management-container" class="border rounded-md p-4 bg-gray-50 min-h-[100px] space-y-4"></div>
+                        <div class="mt-2 flex space-x-2">
+                            <input type="text" id="new-category-name" placeholder="Nova Categoria Principal" class="flex-grow border-gray-300 rounded-md shadow-sm">
+                            <select id="new-category-type" class="border-gray-300 rounded-md shadow-sm"><option value="entrada">Entrada</option><option value="saida">Saída</option><option value="investimento">Investimento</option></select>
+                            <button type="button" id="add-new-category-btn" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Adicionar</button>
                         </div>
                     </div>
                     <div class="pt-4 border-t mt-6">
@@ -236,17 +141,6 @@
                 </form>
             </div>
         </div>
-        
-        <div id="details-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center hidden">
-            <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl mx-4 p-6" style="max-height: 90vh; overflow-y: auto;">
-                <div class="flex justify-between items-center border-b pb-3 mb-4">
-                    <h2 id="details-modal-title" class="text-xl font-bold text-gray-800">Detalhes</h2>
-                    <button id="close-details-modal-btn" class="text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
-                </div>
-                <div id="details-modal-content"></div>
-            </div>
-        </div>
-
     </div>
 
     <script src="script.js"></script>
