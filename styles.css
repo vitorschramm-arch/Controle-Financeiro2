@@ -31,3 +31,38 @@ body {
     opacity: 0;
     pointer-events: none;
 }
+
+/* Estilos para Gerenciamento de Categorias */
+.category-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+}
+
+.subcategory-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 1rem;
+    margin-top: 0.25rem;
+}
+
+.category-actions button, .subcategory-actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.category-actions button:hover, .subcategory-actions button:hover {
+    opacity: 1;
+}
+
+.edit-input {
+    border: 1px solid #3b82f6;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    outline: none;
+}
