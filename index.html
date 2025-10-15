@@ -204,33 +204,70 @@
             </div>
         </div>
 
-        <div id="ai-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center hidden">
-            <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4 p-6">
-                <div class="flex justify-between items-center border-b pb-3 mb-4">
-                    <h2 class="text-xl font-bold text-gray-800">Análise com IA</h2>
-                    <button id="close-ai-modal-btn" class="text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
-                </div>
-                 <div id="ai-initial-state">
-                    <button id="analyze-finance-btn">Analisar Finanças</button>
-                 </div>
-                 <div id="ai-loading-state" class="hidden">Carregando...</div>
-                 <div id="ai-result-state"></div>
-            </div>
-        </div>
-        
-        <div id="forecast-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center hidden">
-            <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl mx-4 p-6">
-                <div class="flex justify-between items-center border-b pb-3 mb-4">
-                    <h2 class="text-xl font-bold text-gray-800">Previsão Futura</h2>
-                    <button id="close-forecast-modal-btn" class="text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
-                </div>
-                <p>Gráficos e dados de previsão futura.</p>
-                <canvas id="forecast-chart"></canvas>
-            </div>
+       <div id="transaction-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-lg mx-4 p-6 transform transition-all" style="max-height: 90vh; overflow-y: auto;">
+        <div class="flex justify-between items-center border-b pb-3 mb-4">
+            <h2 id="modal-headline" class="text-xl font-bold text-gray-800">Nova Transação</h2>
+            <button id="close-modal-btn" class="text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
         </div>
 
+        <form id="transaction-form" class="space-y-4">
+            <div class="grid grid-cols-3 gap-2">
+                <button type="button" class="transaction-type-btn border-gray-300" data-type="entrada">Entrada</button>
+                <button type="button" class="transaction-type-btn border-gray-300" data-type="saida">Saída</button>
+                <button type="button" class="transaction-type-btn border-gray-300" data-type="investimento">Investimento</button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="amount" class="block text-sm font-medium text-gray-700">Valor</label>
+                    <input type="number" id="amount" step="0.01" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="date" class="block text-sm font-medium text-gray-700">Data</label>
+                    <input type="date" id="date" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="category" class="block text-sm font-medium text-gray-700">Categoria</label>
+                    <select id="category" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></select>
+                </div>
+                <div>
+                    <label for="subcategory" class="block text-sm font-medium text-gray-700">Subcategoria</label>
+                    <select id="subcategory" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></select>
+                </div>
+            </div>
+
+            <div id="payment-method-container" class="hidden">
+                <label for="payment-method" class="block text-sm font-medium text-gray-700">Método de Pagamento</label>
+                <select id="payment-method" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    <option>Dinheiro</option>
+                    <option>Cartão de Crédito</option>
+                    <option>Cartão de Débito</option>
+                    <option>PIX</option>
+                    <option>Transferência Bancária</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="description" class="block text-sm font-medium text-gray-700">Descrição</label>
+                <input type="text" id="description" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            </div>
+
+            <div id="is-variable-container" class="hidden">
+                <label class="flex items-center space-x-2 text-sm font-medium text-gray-700">
+                    <input type="checkbox" id="is-fixed" class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-offset-0 focus:ring-blue-200 focus:ring-opacity-50">
+                    <span>É uma transação recorrente (Ex: Salário, Aluguel)?</span>
+                </label>
+            </div>
+
+            <p id="form-error-message" class="text-red-500 text-sm text-center hidden h-4"></p>
+
+            <div class="pt-4 border-t">
+                <button type="submit" class="w-full bg-blue-600 text-white py-2.5 rounded-md hover:bg-blue-700 font-semibold">Adicionar Transação</button>
+            </div>
+        </form>
     </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
+</div>
