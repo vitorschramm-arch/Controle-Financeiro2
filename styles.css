@@ -139,7 +139,7 @@ body {
 #auth-overlay {
     transition: opacity 0.3s ease-in-out;
 }
-#auth-overlay.hidden {
+#auth-overlay.hidden, #app.hidden {
     opacity: 0;
     pointer-events: none; /* Impede cliques quando estiver invisível */
 }
