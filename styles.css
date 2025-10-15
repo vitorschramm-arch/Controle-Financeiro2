@@ -134,3 +134,12 @@ body {
     color: #2563eb;
     font-weight: 600;
 }
+
+/* NOVOS ESTILOS PARA AUTENTICAÇÃO E LOADING */
+#auth-overlay {
+    transition: opacity 0.3s ease-in-out;
+}
+#auth-overlay.hidden, #app.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
