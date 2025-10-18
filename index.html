@@ -144,7 +144,7 @@
                     <div id="budget-bars-container" class="md:col-span-2 space-y-4"></div>
                 </div>
             </div>
-            </main>
+        </main>
         <button id="add-transaction-btn" class="fixed bottom-6 right-6 bg-blue-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg hover:bg-blue-700 transition-transform transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 z-40"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg></button>
         <div id="transaction-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 p-4">
             <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-auto" role="dialog"><div class="flex justify-between items-center mb-4"><h2 id="modal-headline" class="text-xl font-bold text-gray-800">Nova Transação</h2><button id="close-modal-btn" class="text-gray-500 hover:text-gray-800">&times;</button></div><form id="transaction-form" novalidate><div class="mb-4"><span class="block text-sm font-medium text-gray-700 mb-2">Tipo</span><div id="transaction-type-container" class="grid grid-cols-3 gap-2"><div data-type="entrada" class="transaction-type-btn border-green-500 text-green-500 hover:bg-green-50 text-center">Entrada</div><div data-type="saida" class="transaction-type-btn border-red-500 text-red-500 hover:bg-red-50 text-center">Saída</div><div data-type="investimento" class="transaction-type-btn border-blue-500 text-blue-500 hover:bg-blue-50 text-center">Investimento</div></div></div>
@@ -152,6 +152,7 @@
                 <div class="flex items-center"><input id="is-fixed" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"><label for="is-fixed" class="ml-2 block text-sm text-gray-900">Transação Recorrente</label></div>
                 <div id="is-variable-container" class="flex items-center hidden"><input id="is-variable" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"><label for="is-variable" class="ml-2 block text-sm text-gray-900">Valor Variável</label></div>
                 <div id="recurrence-period-container" class="hidden"><select id="recurrence-period" class="block w-full border-gray-300 rounded-md shadow-sm text-sm focus:ring-blue-500 focus:border-blue-500"><option value="monthly">Mensal</option><option value="daily">Diária</option><option value="weekly">Semanal</option><option value="yearly">Anual</option></select></div>
+                <div id="recurrence-count-container" class="hidden"><input type="number" id="recurrence-count" min="1" placeholder="Nº de repetições" class="w-32 border-gray-300 rounded-md shadow-sm text-sm focus:ring-blue-500 focus:border-blue-500"></div>
             </div>
             <div class="grid grid-cols-2 gap-4 mb-4"><div><label for="amount" class="block text-sm font-medium text-gray-700">Valor</label><input type="number" id="amount" name="amount" step="0.01" placeholder="R$ 0,00" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></div><div><label for="date" class="block text-sm font-medium text-gray-700">Data da 1ª Ocorrência</label><input type="date" id="date" name="date" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></div></div><div class="grid grid-cols-2 gap-4 mb-4"><div><label for="category" class="block text-sm font-medium text-gray-700">Categoria</label><select id="category" name="category" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"><option value="">Selecione</option></select></div><div><label for="subcategory" class="block text-sm font-medium text-gray-700">Subcategoria</label><select id="subcategory" name="subcategory" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"><option value="">Selecione</option></select></div></div><div id="payment-method-container" class="mb-4"><label for="payment-method" class="block text-sm font-medium text-gray-700">Forma de Pagamento</label><select id="payment-method" name="payment-method" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"><option value="">Selecione</option><option>Cartão de Crédito</option><option>Cartão de Débito</option><option>Dinheiro</option><option>PIX</option><option>Transferência Bancária</option></select></div><div class="mb-6"><label for="description" class="block text-sm font-medium text-gray-700">Descrição</label><textarea id="description" name="description" rows="2" placeholder="Ex: Compras no supermercado" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea></div><div id="form-error-message" class="hidden text-red-600 text-sm mb-4 p-3 bg-red-100 rounded-md text-center"></div><button type="submit" class="w-full bg-blue-600 text-white py-2.5 px-4 rounded-md hover:bg-blue-700">Adicionar Transação</button></form></div>
         </div>
@@ -163,17 +164,6 @@
         <div id="debt-management-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 p-4"><div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-3xl mx-auto max-h-[90vh] flex flex-col"><div class="flex justify-between items-center mb-4 border-b pb-2"><h2 class="text-xl font-bold text-gray-800">Gerenciar Dívidas</h2><button id="close-debt-management-modal-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button></div><div id="debt-list-container" class="overflow-y-auto flex-grow mb-4"></div><div class="pt-4 border-t"><button id="add-new-debt-btn" class="w-full bg-blue-600 text-white py-2.5 px-4 rounded-md hover:bg-blue-700 font-semibold">+ Adicionar Nova Dívida</button></div></div></div>
         <div id="add-edit-debt-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-60 p-4"><div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg mx-auto"><div class="flex justify-between items-center mb-4"><h2 id="add-edit-debt-modal-title" class="text-xl font-bold text-gray-800">Nova Dívida</h2><button id="close-add-edit-debt-modal-btn" class="text-gray-500 hover:text-gray-800">&times;</button></div><form id="debt-form" novalidate class="space-y-4"><div><label for="debt-description" class="block text-sm font-medium text-gray-700">Descrição</label><input type="text" id="debt-description" placeholder="Ex: Financiamento do Carro" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div class="grid grid-cols-2 gap-4"><div><label for="debt-total-amount" class="block text-sm font-medium text-gray-700">Valor Total da Dívida</label><input type="number" id="debt-total-amount" step="0.01" placeholder="R$ 10.000,00" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div><label for="debt-down-payment" class="block text-sm font-medium text-gray-700">Valor de Entrada (Opcional)</label><input type="number" id="debt-down-payment" step="0.01" placeholder="R$ 2.000,00" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div></div><div class="grid grid-cols-2 gap-4"><div><label for="debt-installments-count" class="block text-sm font-medium text-gray-700">Nº de Parcelas</label><input type="number" id="debt-installments-count" step="1" placeholder="12" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div><label for="debt-start-date" class="block text-sm font-medium text-gray-700">Data da 1ª Parcela</label><input type="date" id="debt-start-date" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div></div><div class="grid grid-cols-2 gap-4"><div><label for="debt-interest-rate" class="block text-sm font-medium text-gray-700">Taxa de Juros (%)</label><input type="number" id="debt-interest-rate" step="0.01" placeholder="1.99" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div><label for="debt-interest-period" class="block text-sm font-medium text-gray-700">Período do Juro</label><select id="debt-interest-period" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"><option value="monthly">Ao Mês</option><option value="yearly">Ao Ano</option></select></div></div><div><span class="block text-sm font-medium text-gray-700 mb-2">Sistema de Amortização</span><div class="flex items-center gap-4"><label class="amortization-radio-label"><input type="radio" name="amortization-type" value="PRICE" class="sr-only" checked> Tabela PRICE</label><label class="amortization-radio-label"><input type="radio" name="amortization-type" value="SAC" class="sr-only"> Sistema SAC</label></div></div><div id="debt-form-error-message" class="hidden text-red-600 text-sm mb-4 p-3 bg-red-100 rounded-md text-center"></div><div class="pt-4"><button type="submit" class="w-full bg-blue-600 text-white py-2.5 px-4 rounded-md hover:bg-blue-700 font-semibold">Salvar Dívida</button></div></form></div></div>
         <div id="debt-details-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-60 p-4"><div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-4xl mx-auto max-h-[90vh] flex flex-col"><div class="flex justify-between items-center mb-4 border-b pb-2"><h2 id="debt-details-modal-title" class="text-xl font-bold text-gray-800">Detalhes da Dívida</h2><button id="close-debt-details-modal-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button></div><div class="overflow-y-auto flex-grow space-y-6"><div id="debt-summary-container" class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center p-4 bg-gray-50 rounded-lg"></div><div class="p-4 border rounded-lg"><h3 class="text-lg font-semibold text-gray-700 mb-3">Adiantar Pagamento / Simulação</h3><div class="flex flex-wrap items-end gap-4"><div><label for="prepayment-amount" class="block text-sm font-medium text-gray-700">Valor a Adiantar</label><input type="number" id="prepayment-amount" step="0.01" placeholder="R$ 1.000,00" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"></div><div><label for="prepayment-strategy" class="block text-sm font-medium text-gray-700">Estratégia</label><select id="prepayment-strategy" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"><option value="reduce_term">Reduzir Prazo</option><option value="reduce_installment">Reduzir Valor da Parcela</option></select></div><div class="flex items-center gap-2"><button id="simulate-prepayment-btn" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 font-semibold text-sm">Simular</button><button id="confirm-prepayment-btn" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 font-semibold text-sm">Confirmar</button></div></div><div id="prepayment-simulation-result" class="mt-3 text-sm text-gray-700 bg-blue-50 p-3 rounded-md hidden"></div></div><div><h3 class="text-lg font-semibold text-gray-700 mb-2">Tabela de Amortização</h3><div id="debt-amortization-table-container" class="overflow-auto border rounded-lg"></div></div></div></div></div>
-
-        <div id="pending-transactions-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 p-4">
-            <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-2xl mx-auto max-h-[90vh] flex flex-col">
-                <div class="flex justify-between items-center mb-4 border-b pb-2">
-                    <h2 id="pending-modal-title" class="text-xl font-bold text-gray-800">Transações Pendentes</h2>
-                    <button id="close-pending-modal-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
-                </div>
-                <div id="pending-modal-list" class="overflow-y-auto flex-grow">
-                    </div>
-            </div>
-        </div>
 
     </div>
 
@@ -196,6 +186,8 @@
         const isFixedCheckbox = document.getElementById('is-fixed');
         const isVariableContainer = document.getElementById('is-variable-container');
         const recurrencePeriodContainer = document.getElementById('recurrence-period-container');
+        // ALTERAÇÃO: Seletor para o novo campo de contagem
+        const recurrenceCountContainer = document.getElementById('recurrence-count-container');
         const amountInput = document.getElementById('amount');
         const dateInput = document.getElementById('date');
         const categorySelect = document.getElementById('category');
@@ -220,7 +212,6 @@
         const exportBtn = document.getElementById('export-btn');
         const cards = document.querySelectorAll('[data-card-type]');
         
-        // ALTERAÇÃO 2: Seletores para os novos elementos de pendências
         const viewPendingBtn = document.getElementById('view-pending-btn');
         const pendingCountBadge = document.getElementById('pending-count-badge');
         const pendingTransactionsModal = document.getElementById('pending-transactions-modal');
@@ -376,7 +367,6 @@
         const formatCurrency = (value) => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         const formatDate = (dateString) => new Date(dateString + 'T00:00:00').toLocaleDateString('pt-BR');
 
-        // ALTERAÇÃO 2: Função para renderizar lista de pendentes no NOVO modal
         const renderPendingModalList = () => {
             const monthName = currentPendingDate.toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
             pendingModalTitle.textContent = `Pendentes de ${monthName.charAt(0).toUpperCase() + monthName.slice(1)}`;
@@ -498,8 +488,6 @@
                 if(transaction.isVariable && !transaction.debtId){const inputEl=document.querySelector(`input[data-amount-input-id="${transactionId}"]`);if(inputEl){const newAmount=parseFloat(inputEl.value);if(!isNaN(newAmount)&&newAmount>0){transaction.amount=newAmount}else{inputEl.focus();inputEl.classList.add('invalid-field');setTimeout(()=>inputEl.classList.remove('invalid-field'),2000);return}}}
                 transaction.status = 'completed';
                 
-                // ALTERAÇÃO 1: REMOVIDA a lógica de criar a próxima recorrência daqui.
-                
                 if (transaction.debtId && transaction.installmentNumber) {
                     const debt = debts.find(d => d.id === transaction.debtId);
                     if(debt){const installment=debt.installments.find(p=>p.number===transaction.installmentNumber);if(installment)installment.status='paid'}
@@ -510,7 +498,6 @@
                     if (choice === 'one') {
                          transactions.splice(transactionIndex, 1);
                     } else if (choice === 'all') {
-                        // ALTERAÇÃO 1: Nova lógica para excluir todas as futuras pendências e o template
                         const templateIdToDelete = transaction.templateId;
                         transactions = transactions.filter(t => t.templateId !== templateIdToDelete || t.status === 'completed');
                         fixedTransactionTemplates = fixedTransactionTemplates.filter(t => t.id !== templateIdToDelete);
@@ -524,7 +511,6 @@
             }
             await saveData();
             updateDashboard();
-            // ALTERAÇÃO 2: Atualiza a lista no modal se ele estiver aberto
             if(!pendingTransactionsModal.classList.contains('hidden')){
                 renderPendingModalList();
             }
@@ -585,7 +571,7 @@
         };
 
         const openModal = () => { transactionModal.classList.remove('hidden'); if (!dateInput.value) dateInput.value = new Date().toISOString().split('T')[0]; setDefaultTransactionType(); };
-        const closeModal = () => { transactionModal.classList.add('hidden'); transactionForm.reset(); resetTypeButtons(); isVariableContainer.classList.add('hidden'); recurrencePeriodContainer.classList.add('hidden'); selectedTransactionType=null; document.querySelectorAll('.invalid-field').forEach(el => el.classList.remove('invalid-field')); formErrorMessage.classList.add('hidden'); editingTransactionId=null; document.getElementById('modal-headline').textContent='Nova Transação'; transactionForm.querySelector('button[type="submit"]').textContent='Adicionar Transação'; isFixedCheckbox.disabled=false; document.getElementById('is-variable').disabled=false; };
+        const closeModal = () => { transactionModal.classList.add('hidden'); transactionForm.reset(); resetTypeButtons(); isVariableContainer.classList.add('hidden'); recurrencePeriodContainer.classList.add('hidden'); recurrenceCountContainer.classList.add('hidden'); selectedTransactionType=null; document.querySelectorAll('.invalid-field').forEach(el => el.classList.remove('invalid-field')); formErrorMessage.classList.add('hidden'); editingTransactionId=null; document.getElementById('modal-headline').textContent='Nova Transação'; transactionForm.querySelector('button[type="submit"]').textContent='Adicionar Transação'; isFixedCheckbox.disabled=false; document.getElementById('is-variable').disabled=false; };
 
         const openModalForEdit = (transactionId) => {
             const transaction = transactions.find(t => t.id === transactionId);
@@ -605,11 +591,13 @@
             isFixedCheckbox.disabled = true;
             isVariableContainer.classList.toggle('hidden', !transaction.isFixed);
             recurrencePeriodContainer.classList.toggle('hidden', !transaction.isFixed);
-            if (transaction.isFixed && transaction.recurrencePeriod) {
-                document.getElementById('recurrence-period').value = transaction.recurrencePeriod;
+            recurrenceCountContainer.classList.toggle('hidden', !transaction.isFixed);
+            if (transaction.isFixed) {
+                document.getElementById('recurrence-period').value = transaction.recurrencePeriod || 'monthly';
+                document.getElementById('recurrence-count').value = transaction.recurrenceCount || '';
             }
             document.getElementById('recurrence-period').disabled = true;
-
+            document.getElementById('recurrence-count').disabled = true;
             document.getElementById('is-variable').checked = transaction.isVariable;
             document.getElementById('is-variable').disabled = true;
             closeTransactionsModal();
@@ -755,7 +743,6 @@
             const completedThisMonth = transactionsThisMonth.filter(t => t.status === 'completed');
             const pendingThisMonth = transactionsThisMonth.filter(t => t.status === 'pending');
             
-            // ALTERAÇÃO 2: Lógica do botão/badge de pendentes
             if (pendingThisMonth.length > 0) {
                 pendingCountBadge.textContent = pendingThisMonth.length;
                 viewPendingBtn.classList.remove('hidden');
@@ -1044,6 +1031,8 @@
             const isChecked = isFixedCheckbox.checked;
             isVariableContainer.classList.toggle('hidden', !isChecked);
             recurrencePeriodContainer.classList.toggle('hidden', !isChecked);
+            // ALTERAÇÃO: Mostrar/ocultar o campo de contagem
+            recurrenceCountContainer.classList.toggle('hidden', !isChecked);
         });
         categorySelect.addEventListener('change', populateSubcategories);
         toggleVisibilityBtns.forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); toggleValuesVisibility(); }));
@@ -1119,14 +1108,26 @@
                         const templateBase = { ...transactionData };
                         delete templateBase.date;
                         templateBase.id = `template-${Date.now()}`;
+                        
+                        // ALTERAÇÃO: Lógica para usar a contagem customizada ou o padrão
+                        const customCount = parseInt(document.getElementById('recurrence-count').value, 10);
+                        templateBase.recurrenceCount = customCount > 0 ? customCount : null;
+                        
                         fixedTransactionTemplates.push(templateBase);
 
-                        // ALTERAÇÃO 1: Lógica para criar múltiplas pendências
                         const startDate = new Date(transactionData.date + 'T12:00:00Z');
                         const period = transactionData.recurrencePeriod;
-                        let iterations = 24; // Padrão para mensal/anual
-                        if (period === 'daily') iterations = 90;
-                        if (period === 'weekly') iterations = 52;
+                        
+                        let iterations;
+                        if (customCount && customCount > 0) {
+                            iterations = customCount;
+                        } else {
+                            // Padrões
+                            if (period === 'daily') iterations = 90;
+                            else if (period === 'weekly') iterations = 104; // 2 anos
+                            else if (period === 'yearly') iterations = 5; // 5 anos
+                            else iterations = 24; // Padrão mensal por 2 anos
+                        }
                         
                         for (let i = 0; i < iterations; i++) {
                             const nextDate = new Date(startDate.getTime());
@@ -1236,7 +1237,6 @@
         categoryManagementContainer.addEventListener('click', handleCategoryManagementAction);
         categoryManagementContainer.addEventListener('change', handleCategoryManagementAction);
         
-        // ALTERAÇÃO 2: Listeners para o novo modal de pendentes
         viewPendingBtn.addEventListener('click', () => {
             renderPendingModalList();
             pendingTransactionsModal.classList.remove('hidden');
