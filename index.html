@@ -1080,17 +1080,6 @@
         categoryManagementContainer.addEventListener('click', handleCategoryManagementAction);
         categoryManagementContainer.addEventListener('change', handleCategoryManagementAction);
         pendingListDashboard.addEventListener('click', handlePendingAction);
-        pendingListDashboard.addEventListener('click', (e) => {
-    if (e.target.closest('button[data-action]') || e.target.closest('input[data-amount-input-id]')) {
-        return;
-    }
-
-    const itemContainer = e.target.closest('div[data-id]');
-    if (itemContainer) {
-        const transactionId = parseInt(itemContainer.dataset.id);
-        openModalForEdit(transactionId);
-    }
-});
         closeDebtManagementModalBtn.addEventListener('click', closeDebtManagementModal);
         debtManagementModal.addEventListener('click', (e) => { if(e.target === debtManagementModal) closeDebtManagementModal() });
         addNewDebtBtn.addEventListener('click', () => openAddEditDebtModal());
