@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -1082,6 +1082,19 @@
 
         categoryManagementContainer.addEventListener('click', handleCategoryManagementAction);
         categoryManagementContainer.addEventListener('change', handleCategoryManagementAction);
+      pendingListDashboard.addEventListener('click', (e) => {
+            // Se o clique foi em um botão de ação (aprovar/deletar), não faz nada.
+            if (e.target.closest('button[data-action]')) {
+                return;
+            }
+
+            // Procura pelo 'div' principal do item que foi clicado
+            const item = e.target.closest('div[data-id]');
+            if (item) {
+                const transactionId = parseInt(item.dataset.id);
+                openModalForEdit(transactionId);
+            }
+        });
         pendingListDashboard.addEventListener('click', handlePendingAction);
         closeDebtManagementModalBtn.addEventListener('click', closeDebtManagementModal);
         debtManagementModal.addEventListener('click', (e) => { if(e.target === debtManagementModal) closeDebtManagementModal() });
