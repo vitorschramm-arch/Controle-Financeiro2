@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -102,7 +101,20 @@
                 <div data-card-type="balance" class="bg-white p-5 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow"><div class="flex justify-between items-start"><div><h3 class="text-gray-500 font-medium">Saldo</h3><p id="balance-value" class="text-2xl font-bold text-gray-800 value-visible">R$ 0,00</p></div><button class="toggle-visibility-btn text-gray-400 hover:text-gray-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></button></div></div>
                 <div data-card-type="debts" class="bg-white p-5 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow"><div class="flex justify-between items-start"><div><h3 class="text-gray-500 font-medium">Dívidas</h3><p id="debts-value" class="text-2xl font-bold text-gray-800 value-visible">R$ 0,00</p></div><button class="toggle-visibility-btn text-gray-400 hover:text-gray-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></button></div></div>
                 <div data-card-type="investments" class="bg-white p-5 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow"><div class="flex justify-between items-start"><div><h3 class="text-gray-500 font-medium">Total Investido</h3><p id="investments-value" class="text-2xl font-bold text-gray-800 value-visible">R$ 0,00</p></div><button class="toggle-visibility-btn text-gray-400 hover:text-gray-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></button></div></div>
-                <div data-card-type="invoice" class="bg-white p-5 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow"><div class="flex justify-between items-start"><div><h3 class="text-gray-500 font-medium">Fatura Atual</h3><p id="invoice-value" class="text-2xl font-bold text-gray-800 value-visible">R$ 0,00</p></div><button class="toggle-visibility-btn text-gray-400 hover:text-gray-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></button></div></div>
+                <div data-card-type="invoice" class="bg-white p-5 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="flex items-center space-x-2 mb-1">
+                                <h3 class="text-gray-500 font-medium">Fatura</h3>
+                                <button id="prev-invoice-btn" class="p-1 rounded-full hover:bg-gray-200 text-gray-500 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></button>
+                                <span id="invoice-period-display" class="text-sm font-semibold text-gray-700 w-24 text-center"></span>
+                                <button id="next-invoice-btn" class="p-1 rounded-full hover:bg-gray-200 text-gray-500 hover:text-gray-800"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button>
+                            </div>
+                            <p id="invoice-value" class="text-2xl font-bold text-gray-800 value-visible">R$ 0,00</p>
+                        </div>
+                        <button class="toggle-visibility-btn text-gray-400 hover:text-gray-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></button>
+                    </div>
+                </div>
             </div>
             <div class="bg-white p-5 rounded-lg shadow-md">
                 <div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold text-gray-800">Visão Geral do Mês</h3><button class="toggle-visibility-btn text-gray-400 hover:text-gray-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></button></div>
@@ -130,7 +142,13 @@
         </main>
         <button id="add-transaction-btn" class="fixed bottom-6 right-6 bg-blue-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg hover:bg-blue-700 transition-transform transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 z-40"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg></button>
         <div id="transaction-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 p-4">
-            <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-auto" role="dialog"><div class="flex justify-between items-center mb-4"><h2 id="modal-headline" class="text-xl font-bold text-gray-800">Nova Transação</h2><button id="close-modal-btn" class="text-gray-500 hover:text-gray-800">&times;</button></div><form id="transaction-form" novalidate><div class="mb-4"><span class="block text-sm font-medium text-gray-700 mb-2">Tipo</span><div id="transaction-type-container" class="grid grid-cols-3 gap-2"><div data-type="entrada" class="transaction-type-btn border-green-500 text-green-500 hover:bg-green-50 text-center">Entrada</div><div data-type="saida" class="transaction-type-btn border-red-500 text-red-500 hover:bg-red-50 text-center">Saída</div><div data-type="investimento" class="transaction-type-btn border-blue-500 text-blue-500 hover:bg-blue-50 text-center">Investimento</div></div></div><div class="flex items-center space-x-4 mb-4"><div class="flex items-center"><input id="is-fixed" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"><label for="is-fixed" class="ml-2 block text-sm text-gray-900">Transação Fixa</label></div><div id="is-variable-container" class="flex items-center hidden"><input id="is-variable" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"><label for="is-variable" class="ml-2 block text-sm text-gray-900">Valor Variável</label></div></div><div class="grid grid-cols-2 gap-4 mb-4"><div><label for="amount" class="block text-sm font-medium text-gray-700">Valor</label><input type="number" id="amount" name="amount" step="0.01" placeholder="R$ 0,00" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></div><div><label for="date" class="block text-sm font-medium text-gray-700">Data</label><input type="date" id="date" name="date" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></div></div><div class="grid grid-cols-2 gap-4 mb-4"><div><label for="category" class="block text-sm font-medium text-gray-700">Categoria</label><select id="category" name="category" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"><option value="">Selecione</option></select></div><div><label for="subcategory" class="block text-sm font-medium text-gray-700">Subcategoria</label><select id="subcategory" name="subcategory" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"><option value="">Selecione</option></select></div></div><div id="payment-method-container" class="mb-4"><label for="payment-method" class="block text-sm font-medium text-gray-700">Forma de Pagamento</label><select id="payment-method" name="payment-method" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"><option value="">Selecione</option><option>Cartão de Crédito</option><option>Cartão de Débito</option><option>Dinheiro</option><option>PIX</option><option>Transferência Bancária</option></select></div><div class="mb-6"><label for="description" class="block text-sm font-medium text-gray-700">Descrição</label><textarea id="description" name="description" rows="2" placeholder="Ex: Compras no supermercado" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea></div><div id="form-error-message" class="hidden text-red-600 text-sm mb-4 p-3 bg-red-100 rounded-md text-center"></div><button type="submit" class="w-full bg-blue-600 text-white py-2.5 px-4 rounded-md hover:bg-blue-700">Adicionar Transação</button></form></div>
+            <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-auto" role="dialog"><div class="flex justify-between items-center mb-4"><h2 id="modal-headline" class="text-xl font-bold text-gray-800">Nova Transação</h2><button id="close-modal-btn" class="text-gray-500 hover:text-gray-800">&times;</button></div><form id="transaction-form" novalidate><div class="mb-4"><span class="block text-sm font-medium text-gray-700 mb-2">Tipo</span><div id="transaction-type-container" class="grid grid-cols-3 gap-2"><div data-type="entrada" class="transaction-type-btn border-green-500 text-green-500 hover:bg-green-50 text-center">Entrada</div><div data-type="saida" class="transaction-type-btn border-red-500 text-red-500 hover:bg-red-50 text-center">Saída</div><div data-type="investimento" class="transaction-type-btn border-blue-500 text-blue-500 hover:bg-blue-50 text-center">Investimento</div></div></div>
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mb-4">
+                <div class="flex items-center"><input id="is-fixed" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"><label for="is-fixed" class="ml-2 block text-sm text-gray-900">Transação Recorrente</label></div>
+                <div id="is-variable-container" class="flex items-center hidden"><input id="is-variable" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"><label for="is-variable" class="ml-2 block text-sm text-gray-900">Valor Variável</label></div>
+                <div id="recurrence-period-container" class="hidden"><select id="recurrence-period" class="block w-full border-gray-300 rounded-md shadow-sm text-sm focus:ring-blue-500 focus:border-blue-500"><option value="monthly">Mensal</option><option value="daily">Diária</option><option value="weekly">Semanal</option><option value="yearly">Anual</option></select></div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-4"><div><label for="amount" class="block text-sm font-medium text-gray-700">Valor</label><input type="number" id="amount" name="amount" step="0.01" placeholder="R$ 0,00" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></div><div><label for="date" class="block text-sm font-medium text-gray-700">Data</label><input type="date" id="date" name="date" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></div></div><div class="grid grid-cols-2 gap-4 mb-4"><div><label for="category" class="block text-sm font-medium text-gray-700">Categoria</label><select id="category" name="category" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"><option value="">Selecione</option></select></div><div><label for="subcategory" class="block text-sm font-medium text-gray-700">Subcategoria</label><select id="subcategory" name="subcategory" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"><option value="">Selecione</option></select></div></div><div id="payment-method-container" class="mb-4"><label for="payment-method" class="block text-sm font-medium text-gray-700">Forma de Pagamento</label><select id="payment-method" name="payment-method" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"><option value="">Selecione</option><option>Cartão de Crédito</option><option>Cartão de Débito</option><option>Dinheiro</option><option>PIX</option><option>Transferência Bancária</option></select></div><div class="mb-6"><label for="description" class="block text-sm font-medium text-gray-700">Descrição</label><textarea id="description" name="description" rows="2" placeholder="Ex: Compras no supermercado" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea></div><div id="form-error-message" class="hidden text-red-600 text-sm mb-4 p-3 bg-red-100 rounded-md text-center"></div><button type="submit" class="w-full bg-blue-600 text-white py-2.5 px-4 rounded-md hover:bg-blue-700">Adicionar Transação</button></form></div>
         </div>
         <div id="transactions-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 p-4"><div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-4xl mx-auto max-h-[90vh] flex flex-col"><div class="flex justify-between items-center mb-4 border-b pb-2"><h2 id="transactions-modal-title" class="text-xl font-bold text-gray-800">Detalhes</h2><div class="flex items-center space-x-3"><button id="export-btn" class="hidden bg-green-600 text-white px-3 py-1.5 rounded-md hover:bg-green-700 text-sm font-semibold flex items-center space-x-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg><span>Exportar XLSX</span></button><button id="close-transactions-modal-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button></div></div><div id="transactions-modal-filters" class="mb-4"></div><div id="transactions-modal-list" class="overflow-y-auto flex-grow"></div></div></div>
         <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 p-4"><div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-2xl mx-auto max-h-[90vh] flex flex-col"><div class="flex justify-between items-center mb-4 border-b pb-2"><h2 class="text-xl font-bold text-gray-800">Configurações</h2><button id="close-settings-modal-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button></div><form id="settings-form" class="flex-grow overflow-y-auto pr-2 space-y-6"><div class="p-4 border rounded-md"><h3 class="text-lg font-semibold text-gray-700 mb-3">Geral</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label for="invoice-closing-day" class="block text-sm font-medium text-gray-700">Dia de Fechamento do Cartão</label><input type="number" id="invoice-closing-day" name="invoice-closing-day" min="1" max="31" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></div><div><label for="savings-goal" class="block text-sm font-medium text-gray-700">Meta de Economia Mensal</label><input type="number" id="savings-goal" name="savings-goal" step="0.01" placeholder="R$ 0,00" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></div></div></div><div class="p-4 border rounded-md"><h3 class="text-lg font-semibold text-gray-700 mb-3">Gerenciar Categorias e Orçamentos</h3><p class="text-sm text-gray-500 mb-4">Defina orçamentos e gerencie suas categorias e subcategorias.</p><div id="category-management-container" class="space-y-2"></div></div><div class="p-4 border rounded-md"><h3 class="text-lg font-semibold text-gray-700 mb-3">Importar & Exportar Dados</h3><p class="text-sm text-gray-500 mb-4">Faça backup ou restaure seus dados.</p><div class="grid grid-cols-1 md:grid-cols-3 gap-3"><button id="download-template-btn" type="button" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 font-semibold text-sm">Baixar Modelo</button><button id="export-all-btn" type="button" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 font-semibold text-sm">Exportar Tudo</button><button id="import-all-btn" type="button" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 font-semibold text-sm">Importar Dados</button></div><input type="file" id="import-file-input" class="hidden" accept=".xlsx"></div></form><div class="mt-6 pt-4 border-t"><button type="submit" form="settings-form" class="w-full bg-blue-600 text-white py-2.5 px-4 rounded-md hover:bg-blue-700">Salvar Alterações</button></div></div></div>
@@ -161,6 +179,8 @@
         const transactionTypeBtns = document.querySelectorAll('.transaction-type-btn');
         const isFixedCheckbox = document.getElementById('is-fixed');
         const isVariableContainer = document.getElementById('is-variable-container');
+        // ALTERAÇÃO 3: Selecionando o container do período de recorrência
+        const recurrencePeriodContainer = document.getElementById('recurrence-period-container');
         const amountInput = document.getElementById('amount');
         const dateInput = document.getElementById('date');
         const categorySelect = document.getElementById('category');
@@ -172,6 +192,10 @@
         const debtsValueEl = document.getElementById('debts-value');
         const investmentsValueEl = document.getElementById('investments-value');
         const invoiceValueEl = document.getElementById('invoice-value');
+        // ALTERAÇÃO 4: Selecionando os novos elementos da fatura
+        const prevInvoiceBtn = document.getElementById('prev-invoice-btn');
+        const nextInvoiceBtn = document.getElementById('next-invoice-btn');
+        const invoicePeriodDisplay = document.getElementById('invoice-period-display');
         const toggleVisibilityBtns = document.querySelectorAll('.toggle-visibility-btn');
         const valueElements = document.querySelectorAll('[id$="-value"], .value-visible');
         const transactionsModal = document.getElementById('transactions-modal');
@@ -243,8 +267,10 @@
         let fixedTransactionTemplates = [];
         let debts = [];
         let currentPendingDate = new Date();
+        // ALTERAÇÃO 4: Variável para controlar o mês da fatura
+        let invoiceMonthOffset = 0; 
         let selectedTransactionType = null;
-        let areValuesVisible = true;
+        let areValuesVisible = true; // Mantido como true, será invertido no login
         let currentSort = { key: 'date', direction: 'desc' };
         let modalTransactionData = [];
         let currentFilteredModalData = [];
@@ -300,10 +326,10 @@
         const handleLogout = () => { signOut(auth).catch((error) => console.error("Logout failed:", error)); };
         
         const resetAppState = () => {
-             transactions = []; fixedTransactionTemplates = []; debts = [];
-             settings = { ...defaultSettings }; categoryData = { ...defaultCategories };
-             if (appContainer.classList.contains('hidden')) return;
-             updateDashboard();
+                 transactions = []; fixedTransactionTemplates = []; debts = [];
+                 settings = { ...defaultSettings }; categoryData = { ...defaultCategories };
+                 if (appContainer.classList.contains('hidden')) return;
+                 updateDashboard();
         };
         
         onAuthStateChanged(auth, (user) => {
@@ -312,7 +338,10 @@
                 userDisplay.textContent = `Olá, ${user.displayName.split(' ')[0]}`;
                 loginScreen.classList.add('hidden');
                 appContainer.classList.remove('hidden');
-                loadData();
+                loadData().then(() => {
+                    // ALTERAÇÃO 1: Ocultar valores ao carregar o app
+                    toggleValuesVisibility();
+                });
             } else {
                 currentUser = null;
                 loginScreen.classList.remove('hidden');
@@ -346,24 +375,46 @@
                 const amountField = t.isVariable && !isDebtPayment
                     ? `<input type="number" step="0.01" data-amount-input-id="${t.id}" value="${t.amount.toFixed(2)}" class="w-32 border border-gray-300 rounded-md py-1 px-2 text-right font-bold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">`
                     : `<p class="font-bold text-gray-800">${formatCurrency(t.amount)}</p>`;
-                return `<div class="flex items-center justify-between p-3 bg-gray-50 rounded-md border space-x-4"><div class="flex-1 min-w-0"><p class="font-medium text-gray-800 truncate">${t.description||'Transação Fixa'}</p><p class="text-sm text-gray-500">${formatDate(t.date)} ${t.isVariable?'<span class="text-xs font-semibold bg-blue-100 text-blue-800 py-0.5 px-1.5 rounded-full ml-2">Valor Variável</span>':''} ${isDebtPayment?`<span class="text-xs font-semibold bg-orange-100 text-orange-800 py-0.5 px-1.5 rounded-full ml-2">Dívida ${t.installmentNumber}/${t.installmentsTotal}</span>`:''}</p></div><div class="flex-shrink-0">${amountField}</div><div class="flex-shrink-0 flex items-center space-x-2"><button data-action="approve" data-id="${t.id}" title="Aprovar" class="p-2 text-green-600 hover:bg-green-100 rounded-full"><svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button><button data-action="delete" data-id="${t.id}" title="Excluir" class="p-2 text-red-600 hover:bg-red-100 rounded-full"><svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div></div>`;
+                return `<div class="flex items-center justify-between p-3 bg-gray-50 rounded-md border space-x-4"><div class="flex-1 min-w-0"><p class="font-medium text-gray-800 truncate">${t.description||'Transação Recorrente'}</p><p class="text-sm text-gray-500">${formatDate(t.date)} ${t.isVariable?'<span class="text-xs font-semibold bg-blue-100 text-blue-800 py-0.5 px-1.5 rounded-full ml-2">Valor Variável</span>':''} ${isDebtPayment?`<span class="text-xs font-semibold bg-orange-100 text-orange-800 py-0.5 px-1.5 rounded-full ml-2">Dívida ${t.installmentNumber}/${t.installmentsTotal}</span>`:''}</p></div><div class="flex-shrink-0">${amountField}</div><div class="flex-shrink-0 flex items-center space-x-2"><button data-action="approve" data-id="${t.id}" title="Aprovar" class="p-2 text-green-600 hover:bg-green-100 rounded-full"><svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button><button data-action="delete" data-id="${t.id}" title="Excluir" class="p-2 text-red-600 hover:bg-red-100 rounded-full"><svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div></div>`;
             }).join('') + '</div>';
             pendingListDashboard.innerHTML = html;
         };
-
-        const updateDashboard = () => {
+        
+        // ALTERAÇÃO 4: Nova função para calcular o período da fatura
+        const getInvoicePeriod = (offset = 0) => {
+            const closingDay = settings.invoiceClosingDay || 1;
             const now = new Date();
-            const currentMonth = now.getMonth();
-            const currentYear = now.getFullYear();
+            now.setMonth(now.getMonth() + offset);
+
+            let closingDate = new Date(now.getFullYear(), now.getMonth(), closingDay);
+            if (now.getDate() > closingDay) {
+                closingDate.setMonth(closingDate.getMonth() + 1);
+            }
+
+            let startDate = new Date(closingDate.getFullYear(), closingDate.getMonth() - 1, closingDay + 1);
+            let endDate = new Date(closingDate.getFullYear(), closingDate.getMonth(), closingDay);
+            
+            return { startDate, endDate };
+        };
+        
+        const updateDashboard = () => {
             const completedTransactions = transactions.filter(t => t.status === 'completed');
             const totalEntradas = completedTransactions.filter(t => t.type === 'entrada').reduce((acc, t) => acc + t.amount, 0);
             const totalSaidas = completedTransactions.filter(t => t.type === 'saida' || t.type === 'investimento').reduce((acc, t) => acc + t.amount, 0);
             const totalInvestido = completedTransactions.filter(t => t.type === 'investimento').reduce((acc, t) => acc + t.amount, 0);
             const totalDebtBalance = debts.reduce((sum, debt) => debt.installments.filter(p => p.status === 'pending').reduce((s, p) => s + p.principal, 0) + sum, 0);
+            
+            // ALTERAÇÃO 4: Lógica de cálculo da fatura atualizada
+            const { startDate, endDate } = getInvoicePeriod(invoiceMonthOffset);
+            invoicePeriodDisplay.textContent = endDate.toLocaleString('pt-BR', { month: 'short', year: '2-digit' }).toUpperCase();
+            prevInvoiceBtn.disabled = invoiceMonthOffset === 0;
+
             const faturaAtual = completedTransactions.filter(t => {
+                if (t['payment-method'] !== 'Cartão de Crédito') return false;
                 const tDate = new Date(t.date + 'T00:00:00');
-                return t['payment-method']==='Cartão de Crédito' && tDate.getMonth()===currentMonth && tDate.getFullYear()===currentYear;
+                return tDate >= startDate && tDate <= endDate;
             }).reduce((acc, t) => acc + t.amount, 0);
+            
             balanceValueEl.textContent = formatCurrency(totalEntradas - totalSaidas);
             investmentsValueEl.textContent = formatCurrency(totalInvestido);
             invoiceValueEl.textContent = formatCurrency(faturaAtual);
@@ -384,10 +435,10 @@
                 let actionCell = '';
                 if (cardType === 'balance') {
                     actionCell = `<td class="p-3 text-center">
-                                    <button data-action="delete-transaction" data-id="${t.id}" class="p-1 text-gray-400 hover:text-red-600 rounded-full" title="Excluir Transação">
-                                        <svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                                    </button>
-                                </td>`;
+                                        <button data-action="delete-transaction" data-id="${t.id}" class="p-1 text-gray-400 hover:text-red-600 rounded-full" title="Excluir Transação">
+                                            <svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                        </button>
+                                    </td>`;
                 }
                 return `<tr class="border-b border-gray-200 hover:bg-gray-50" data-id="${t.id}" title="Clique para editar">
                             <td class="p-3 whitespace-nowrap">${formatDate(t.date)}</td>
@@ -417,9 +468,21 @@
                     if(template) {
                         const currentTransactionDate = new Date(transaction.date + 'T12:00:00Z');
                         const nextDate = new Date(currentTransactionDate.getTime());
-                        nextDate.setUTCMonth(nextDate.getUTCMonth() + 1);
-                        const originalDay = currentTransactionDate.getUTCDate();
-                        if (nextDate.getUTCDate() !== originalDay) nextDate.setUTCDate(0);
+                        
+                        // ALTERAÇÃO 3: Lógica de criação da próxima recorrência
+                        const period = template.recurrencePeriod || 'monthly';
+                        switch (period) {
+                            case 'daily': nextDate.setUTCDate(nextDate.getUTCDate() + 1); break;
+                            case 'weekly': nextDate.setUTCDate(nextDate.getUTCDate() + 7); break;
+                            case 'yearly': nextDate.setUTCFullYear(nextDate.getUTCFullYear() + 1); break;
+                            case 'monthly':
+                            default:
+                                nextDate.setUTCMonth(nextDate.getUTCMonth() + 1);
+                                const originalDay = currentTransactionDate.getUTCDate();
+                                if (nextDate.getUTCDate() !== originalDay) nextDate.setUTCDate(0);
+                                break;
+                        }
+                        
                         const nextInstance = { ...template, id: Date.now(), templateId: template.id, status: 'pending', date: nextDate.toISOString().split('T')[0] };
                         transactions.push(nextInstance);
                     }
@@ -432,8 +495,28 @@
                 if (transaction.templateId) {
                     const choice = await showGenericModal({title:'Excluir Transação Pendente',message:'Esta é uma transação recorrente. O que você deseja fazer?',buttons:[{text:'Cancelar',value:'cancel',classes:'bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 font-semibold'},{text:'Excluir Somente Esta',value:'one',classes:'bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 font-semibold'},{text:'Parar Recorrência',value:'all',classes:'bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 font-semibold'}]});
                     if (choice === 'one') {
+                         // A lógica para criar a próxima instância ao aprovar já lida com a continuidade.
+                         // Aqui apenas removemos a atual, sem parar a recorrência.
+                         // A próxima será criada quando a anterior a esta for aprovada.
+                         // Se nenhuma anterior existir, a recorrência para. Para corrigir isso, criamos a próxima aqui.
                         const template=fixedTransactionTemplates.find(t=>t.id===transaction.templateId);
-                        if(template){const currentTransactionDate=new Date(transaction.date+'T12:00:00Z');const nextDate=new Date(currentTransactionDate.getTime());nextDate.setUTCMonth(nextDate.getUTCMonth()+1);const originalDay=currentTransactionDate.getUTCDate();if(nextDate.getUTCDate()!==originalDay)nextDate.setUTCDate(0);const nextInstance={...template,id:Date.now(),templateId:template.id,status:'pending',date:nextDate.toISOString().split('T')[0]};transactions.push(nextInstance)}
+                        if(template){
+                            const currentTransactionDate=new Date(transaction.date+'T12:00:00Z');
+                            const nextDate=new Date(currentTransactionDate.getTime());
+                            const period = template.recurrencePeriod || 'monthly';
+                            switch (period) {
+                                case 'daily': nextDate.setUTCDate(nextDate.getUTCDate() + 1); break;
+                                case 'weekly': nextDate.setUTCDate(nextDate.getUTCDate() + 7); break;
+                                case 'yearly': nextDate.setUTCFullYear(nextDate.getUTCFullYear() + 1); break;
+                                case 'monthly': default:
+                                    nextDate.setUTCMonth(nextDate.getUTCMonth() + 1);
+                                    const originalDay = currentTransactionDate.getUTCDate();
+                                    if(nextDate.getUTCDate() !== originalDay) nextDate.setUTCDate(0);
+                                    break;
+                            }
+                            const nextInstance={...template,id:Date.now(),templateId:template.id,status:'pending',date:nextDate.toISOString().split('T')[0]};
+                            transactions.push(nextInstance);
+                        }
                         transactions.splice(transactionIndex, 1);
                     } else if (choice === 'all') {
                         const templateIdToDelete = transaction.templateId;
@@ -506,7 +589,7 @@
         };
 
         const openModal = () => { transactionModal.classList.remove('hidden'); if (!dateInput.value) dateInput.value = new Date().toISOString().split('T')[0]; setDefaultTransactionType(); };
-        const closeModal = () => { transactionModal.classList.add('hidden'); transactionForm.reset(); resetTypeButtons(); isVariableContainer.classList.add('hidden'); selectedTransactionType=null; document.querySelectorAll('.invalid-field').forEach(el => el.classList.remove('invalid-field')); formErrorMessage.classList.add('hidden'); editingTransactionId=null; document.getElementById('modal-headline').textContent='Nova Transação'; transactionForm.querySelector('button[type="submit"]').textContent='Adicionar Transação'; isFixedCheckbox.disabled=false; document.getElementById('is-variable').disabled=false; };
+        const closeModal = () => { transactionModal.classList.add('hidden'); transactionForm.reset(); resetTypeButtons(); isVariableContainer.classList.add('hidden'); recurrencePeriodContainer.classList.add('hidden'); selectedTransactionType=null; document.querySelectorAll('.invalid-field').forEach(el => el.classList.remove('invalid-field')); formErrorMessage.classList.add('hidden'); editingTransactionId=null; document.getElementById('modal-headline').textContent='Nova Transação'; transactionForm.querySelector('button[type="submit"]').textContent='Adicionar Transação'; isFixedCheckbox.disabled=false; document.getElementById('is-variable').disabled=false; };
 
         const openModalForEdit = (transactionId) => {
             const transaction = transactions.find(t => t.id === transactionId);
@@ -525,6 +608,13 @@
             isFixedCheckbox.checked = transaction.isFixed;
             isFixedCheckbox.disabled = true;
             isVariableContainer.classList.toggle('hidden', !transaction.isFixed);
+            // ALTERAÇÃO 3: Lógica para exibir/ocultar período de recorrência na edição
+            recurrencePeriodContainer.classList.toggle('hidden', !transaction.isFixed);
+            if (transaction.isFixed && transaction.recurrencePeriod) {
+                document.getElementById('recurrence-period').value = transaction.recurrencePeriod;
+            }
+            document.getElementById('recurrence-period').disabled = true;
+
             document.getElementById('is-variable').checked = transaction.isVariable;
             document.getElementById('is-variable').disabled = true;
             closeTransactionsModal();
@@ -741,7 +831,8 @@
                 forecastDataForExport.push({ 'Mês': futureDate.toLocaleString('pt-BR', { month: 'long', year: 'numeric' }), 'Receita Projetada': totalAvgIncome, 'Despesa Projetada': totalAvgExpense + totalAvgInvestment, 'Saldo Projetado': cumulativeBalance });
             }
             if(forecastChartInstance) forecastChartInstance.destroy();
-            forecastChartInstance = new Chart(forecastChartCanvas, { type: 'line', data: { labels: labels, datasets: [ { label: 'Saldo', data: balanceData, borderColor: '#3b82f6', backgroundColor: '#3b82f620', fill: true, tension: 0.1 }, { label: 'Receitas', data: incomeData, borderColor: '#22c55e', hidden: true }, { label: 'Despesas', data: expenseData, borderColor: '#ef4444', hidden: true } ] }, options: { responsive: true, maintainAspectRatio: false } });
+            // ALTERAÇÃO 5: Removido `hidden: true` das receitas e despesas
+            forecastChartInstance = new Chart(forecastChartCanvas, { type: 'line', data: { labels: labels, datasets: [ { label: 'Saldo', data: balanceData, borderColor: '#3b82f6', backgroundColor: '#3b82f620', fill: true, tension: 0.1 }, { label: 'Receitas', data: incomeData, borderColor: '#22c55e' }, { label: 'Despesas', data: expenseData, borderColor: '#ef4444' } ] }, options: { responsive: true, maintainAspectRatio: false } });
         };
         const exportForecastDataToXLSX = () => {
             if(forecastDataForExport.length===0){showGenericModal({type:'alert',title:'Aviso',message:'Não há dados para exportar.'});return}
@@ -833,14 +924,12 @@
         const openDebtManagementModal = () => { renderDebtManagementList(); debtManagementModal.classList.remove('hidden'); };
         const closeDebtManagementModal = () => debtManagementModal.classList.add('hidden');
         
-        // CORREÇÃO: Função para abrir modal de dívidas foi atualizada
         const openAddEditDebtModal = (debtId = null) => {
             debtForm.reset();
             debtForm.querySelectorAll('.invalid-field').forEach(el => el.classList.remove('invalid-field'));
             document.getElementById('debt-form-error-message').classList.add('hidden');
             editingDebtId = debtId;
             
-            // Habilita todos os campos por padrão
             const fields = ['debt-description', 'debt-total-amount', 'debt-down-payment', 'debt-installments-count', 'debt-interest-rate', 'debt-interest-period', 'debt-start-date'];
             fields.forEach(id => { document.getElementById(id).disabled = false; });
             debtForm.querySelectorAll('input[name="amortization-type"]').forEach(radio => radio.disabled = false);
@@ -852,13 +941,11 @@
                 addEditDebtModalTitle.textContent = "Editar Dívida";
                 debtForm.querySelector('button[type="submit"]').textContent = "Salvar Alterações (Recalcular)";
                 
-                // Preenche todos os campos com os dados existentes
                 document.getElementById('debt-description').value = debt.description;
                 document.getElementById('debt-total-amount').value = debt.totalAmount;
                 document.getElementById('debt-down-payment').value = debt.downPayment;
                 document.getElementById('debt-installments-count').value = debt.installmentsCount;
                 document.getElementById('debt-start-date').value = debt.startDate;
-                // A taxa de juros é armazenada como decimal, então convertemos para porcentagem
                 document.getElementById('debt-interest-rate').value = (debt.interestRate * 100).toFixed(2);
                 document.getElementById('debt-interest-period').value = debt.interestPeriod || 'monthly';
                 debtForm.querySelector(`input[name="amortization-type"][value="${debt.amortizationType}"]`).checked = true;
@@ -922,9 +1009,7 @@
         const handleDebtDeletion = async (debtId) => {
             const confirmed = await showGenericModal({type:'confirm',title:'Excluir Dívida',message:'Tem certeza? Todas as parcelas e a entrada associada serão removidas permanentemente.'});
             if (confirmed) {
-                // Remove a dívida
                 debts = debts.filter(d => d.id !== debtId);
-                // Remove todas as transações (entrada e parcelas) associadas à dívida
                 transactions = transactions.filter(t => t.debtId !== debtId);
                 await saveData(); 
                 updateDashboard(); 
@@ -936,7 +1021,12 @@
         addTransactionBtn.addEventListener('click', openModal);
         closeModalBtn.addEventListener('click', closeModal);
         transactionModal.addEventListener('click', (e) => { if (e.target === transactionModal) closeModal(); });
-        isFixedCheckbox.addEventListener('change', () => { isVariableContainer.classList.toggle('hidden', !isFixedCheckbox.checked); });
+        isFixedCheckbox.addEventListener('change', () => { 
+            const isChecked = isFixedCheckbox.checked;
+            isVariableContainer.classList.toggle('hidden', !isChecked);
+            // ALTERAÇÃO 3: Exibe/oculta o seletor de período
+            recurrencePeriodContainer.classList.toggle('hidden', !isChecked);
+        });
         categorySelect.addEventListener('change', populateSubcategories);
         toggleVisibilityBtns.forEach(btn => btn.addEventListener('click', (e) => { e.stopPropagation(); toggleValuesVisibility(); }));
         closeTransactionsModalBtn.addEventListener('click', closeTransactionsModal);
@@ -957,13 +1047,30 @@
         prevMonthBtn.addEventListener('click', () => { currentPendingDate.setMonth(currentPendingDate.getMonth() - 1); updateDashboard(); });
         nextMonthBtn.addEventListener('click', () => { currentPendingDate.setMonth(currentPendingDate.getMonth() + 1); updateDashboard(); });
         transactionTypeBtns.forEach(btn => btn.addEventListener('click', () => { transactionTypeBtns.forEach(b => b.classList.remove('active')); btn.classList.add('active'); selectedTransactionType = btn.dataset.type; updateFormForType(selectedTransactionType); }));
-        cards.forEach(card => card.addEventListener('click', () => {
+        
+        // ALTERAÇÃO 4: Eventos para navegação da fatura
+        prevInvoiceBtn.addEventListener('click', () => { if (invoiceMonthOffset > 0) { invoiceMonthOffset--; updateDashboard(); } });
+        nextInvoiceBtn.addEventListener('click', () => { invoiceMonthOffset++; updateDashboard(); });
+
+        cards.forEach(card => card.addEventListener('click', (e) => {
+            // Previne que o clique nos botões de navegação da fatura abra o modal
+            if (e.target.closest('#prev-invoice-btn') || e.target.closest('#next-invoice-btn')) {
+                return;
+            }
             const cardType = card.dataset.cardType;
-            const now = new Date(), currentMonth = now.getMonth(), currentYear = now.getFullYear();
             switch (cardType) {
                 case 'balance': openTransactionsModal({ cardType: 'balance', title: 'Extrato Completo', transactions: transactions.filter(t => t.status === 'completed'), filters: ['period', 'type', 'category', 'subcategory'] }); break;
                 case 'investments': openTransactionsModal({ cardType: 'investments', title: 'Total Investido', transactions: transactions.filter(t => t.status === 'completed' && t.type === 'investimento'), filters: [] }); break;
-                case 'invoice': const invoiceTransactions=transactions.filter(t=>{const tDate=new Date(t.date+'T00:00:00');return t.status==='completed'&&t['payment-method']==='Cartão de Crédito'&&tDate.getMonth()===currentMonth&&tDate.getFullYear()===currentYear}); openTransactionsModal({cardType:'invoice',title:'Fatura Atual',transactions:invoiceTransactions,filters:[]}); break;
+                case 'invoice': 
+                    const { startDate, endDate } = getInvoicePeriod(invoiceMonthOffset);
+                    const invoiceTransactions = transactions.filter(t => {
+                        if (t.status !== 'completed' || t['payment-method'] !== 'Cartão de Crédito') return false;
+                        const tDate = new Date(t.date + 'T00:00:00');
+                        return tDate >= startDate && tDate <= endDate;
+                    });
+                    const title = `Fatura (Fecha em ${endDate.toLocaleDateString('pt-BR')})`;
+                    openTransactionsModal({ cardType: 'invoice', title: title, transactions: invoiceTransactions, filters: [] }); 
+                    break;
                 case 'debts': openDebtManagementModal(); break;
             }
         }));
@@ -990,6 +1097,8 @@
                     const isFixed = isFixedCheckbox.checked;
                     transactionData.isFixed = isFixed;
                     transactionData.isVariable = isFixed ? document.getElementById('is-variable').checked : false;
+                    // ALTERAÇÃO 3: Salva o período de recorrência
+                    transactionData.recurrencePeriod = isFixed ? document.getElementById('recurrence-period').value : null;
 
                     if (isFixed) {
                         const templateBase = { ...transactionData };
@@ -1085,7 +1194,11 @@
         pendingListDashboard.addEventListener('click', handlePendingAction);
         closeDebtManagementModalBtn.addEventListener('click', closeDebtManagementModal);
         debtManagementModal.addEventListener('click', (e) => { if(e.target === debtManagementModal) closeDebtManagementModal() });
-        addNewDebtBtn.addEventListener('click', () => openAddEditDebtModal());
+        // ALTERAÇÃO 2: Fechar modal de gerenciamento ao abrir o de adição
+        addNewDebtBtn.addEventListener('click', () => {
+            closeDebtManagementModal();
+            openAddEditDebtModal();
+        });
         closeAddEditDebtModalBtn.addEventListener('click', closeAddEditDebtModal);
         addEditDebtModal.addEventListener('click', (e) => { if(e.target === addEditDebtModal) closeAddEditDebtModal() });
         closeDebtDetailsModalBtn.addEventListener('click', closeDebtDetailsModal);
@@ -1116,10 +1229,9 @@
                 const confirmed = await showGenericModal({ type: 'confirm', title: 'Recalcular Dívida', message: 'Você está editando os dados financeiros de uma dívida. Isso irá apagar a dívida antiga e todas as suas parcelas, criando uma nova com os valores informados. Deseja continuar?' });
                 if (!confirmed) return;
                 
-                // Remove a dívida antiga e suas transações associadas
                 debts = debts.filter(d => d.id !== editingDebtId);
                 transactions = transactions.filter(t => t.debtId !== editingDebtId);
-                editingDebtId = null; // Garante que a lógica de criação seja usada
+                editingDebtId = null; 
             }
 
             const totalAmount = parseFloat(document.getElementById('debt-total-amount').value);
