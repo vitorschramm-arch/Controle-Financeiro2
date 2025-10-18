@@ -213,7 +213,6 @@
     </div>
 
     <script>
-    // SCRIPT COMPLETO COM TODAS AS CORREÇÕES E FUNCIONALIDADES
     document.addEventListener('DOMContentLoaded', () => {
         const { auth, database, provider, signInWithPopup, signOut, onAuthStateChanged, ref, set, get } = window.firebaseSDK;
         const loginScreen = document.getElementById('login-screen');
@@ -495,29 +494,36 @@
             debtsValueEl.textContent = formatCurrency(totalDebtBalance);
             updateOverviewCard();
         };
-
+        
+        // ALTERAÇÃO: Adicionada coluna de Status e classe para pendentes
         const generateTransactionListHTML = (data, cardType) => {
             if(data.length===0) return '<p class="text-gray-500 text-center py-4">Nenhuma transação encontrada.</p>';
-            let headers = [{key:'date',label:'Data'},{key:'description',label:'Descrição'},{key:'category',label:'Categoria'},{key:'amount',label:'Valor'}];
+            let headers = [{key:'date',label:'Data'},{key:'description',label:'Descrição'},{key:'category',label:'Categoria'},{key:'amount',label:'Valor'}, {key:'status', label:'Status'}];
             if (cardType === 'balance') {
                 headers.push({key:'actions', label: 'Ações'});
             }
-            const headerHTML = headers.map(h => `<th class="p-3 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider ${h.key !== 'actions' ? `sortable-header ${currentSort.key===h.key?currentSort.direction:''}` : ''}" data-sort-key="${h.key}">${h.label} ${h.key !== 'actions' ? '<span class="sort-icon">▲</span>' : ''}</th>`).join('');
+            const headerHTML = headers.map(h => `<th class="p-3 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider ${h.key !== 'actions' && h.key !== 'status' ? `sortable-header ${currentSort.key===h.key?currentSort.direction:''}` : ''}" data-sort-key="${h.key}">${h.label} ${h.key !== 'actions' && h.key !== 'status' ? '<span class="sort-icon">▲</span>' : ''}</th>`).join('');
             
             const rowsHTML = data.map(t => {
                 let actionCell = '';
-                if (cardType === 'balance') {
+                if (cardType === 'balance' && t.status === 'completed') { // Apenas para concluídas
                     actionCell = `<td class="p-3 text-center">
                                         <button data-action="delete-transaction" data-id="${t.id}" class="p-1 text-gray-400 hover:text-red-600 rounded-full" title="Excluir Transação">
                                             <svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                         </button>
                                     </td>`;
+                } else if (cardType === 'balance') {
+                    actionCell = `<td class="p-3 text-center"></td>`; // Célula vazia para alinhar
                 }
-                return `<tr class="border-b border-gray-200 hover:bg-gray-50" data-id="${t.id}" title="Clique para editar">
+                const statusCell = `<td class="p-3 text-center"><span class="px-2 py-1 text-xs font-semibold rounded-full ${t.status === 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">${t.status === 'completed' ? 'Concluído' : 'Pendente'}</span></td>`;
+                const rowClass = t.status === 'pending' ? 'bg-yellow-50/50 opacity-80 hover:opacity-100' : 'hover:bg-gray-50';
+
+                return `<tr class="border-b ${rowClass}" data-id="${t.id}" title="Clique para editar">
                             <td class="p-3 whitespace-nowrap">${formatDate(t.date)}</td>
                             <td class="p-3">${t.description||'-'}</td>
                             <td class="p-3">${t.category}${t.subcategory?' ('+t.subcategory+')':''}</td>
                             <td class="p-3 text-right font-medium">${(t.type==='saida'||t.type==='investimento')?'-':''}${formatCurrency(t.amount)}</td>
+                            ${statusCell}
                             ${actionCell}
                         </tr>`;
             }).join('');
@@ -564,8 +570,7 @@
                 renderPendingModalList();
             }
         };
-        
-        // CORREÇÃO: Função applyFiltersAndRender atualizada para lidar com totais
+
         const applyFiltersAndRender = (baseData, cardType) => {
             let filteredData = [...baseData];
             const startDate = document.getElementById('modal-start-date-filter')?.value;
@@ -577,8 +582,7 @@
             if (activeFilters.subcategory !== 'all') filteredData = filteredData.filter(t => t.subcategory === activeFilters.subcategory);
             
             const totalAmount = filteredData.reduce((sum, t) => {
-                if (cardType === 'overview-expenses' || cardType === 'overview-income') return sum + t.amount;
-                if (t.type === 'entrada') return sum + t.amount;
+                if (cardType === 'overview-expenses' || cardType === 'overview-income' || t.type === 'entrada') return sum + t.amount;
                 if (t.type === 'saida' || t.type === 'investimento') return sum - t.amount;
                 return sum;
             }, 0);
@@ -600,8 +604,7 @@
                 });
             });
         };
-        
-        // CORREÇÃO: Função openTransactionsModal atualizada para lidar com totais
+
         const openTransactionsModal = (config) => {
             transactionsModalTitle.textContent = config.title;
             modalTransactionData = [...config.transactions];
@@ -623,8 +626,7 @@
             const totalPeriodEl = document.getElementById('modal-total-period');
             
             const totalPeriodAmount = modalTransactionData.reduce((sum, t) => {
-                if (config.cardType === 'overview-expenses' || config.cardType === 'overview-income') return sum + t.amount;
-                if (t.type === 'entrada') return sum + t.amount;
+                if (config.cardType === 'overview-expenses' || config.cardType === 'overview-income' || t.type === 'entrada') return sum + t.amount;
                 if (t.type === 'saida' || t.type === 'investimento') return sum - t.amount;
                 return sum;
             }, 0);
@@ -808,6 +810,7 @@
             }
         };
 
+        // ALTERAÇÃO: Atualiza a visão geral para mostrar totais projetados
         const updateOverviewCard = () => {
             const monthName = currentPendingDate.toLocaleString('pt-BR', { month: 'long' });
             const year = currentPendingDate.getFullYear();
@@ -828,14 +831,20 @@
 
             const income = completedThisMonth.filter(t => t.type === 'entrada').reduce((sum, t) => sum + t.amount, 0);
             const expenses = completedThisMonth.filter(t => t.type === 'saida').reduce((sum, t) => sum + t.amount, 0);
-            const balance = income - expenses;
-            overviewIncomeEl.textContent = formatCurrency(income);
-            overviewExpensesEl.textContent = formatCurrency(expenses);
-            overviewBalanceEl.textContent = formatCurrency(balance);
             const pendingIncome = pendingThisMonth.filter(t => t.type === 'entrada').reduce((sum, t) => sum + t.amount, 0);
             const pendingExpenses = pendingThisMonth.filter(t => t.type === 'saida').reduce((sum, t) => sum + t.amount, 0);
-            overviewIncomePendingEl.textContent = pendingIncome > 0 ? `(+ ${formatCurrency(pendingIncome)} pendente)` : '';
-            overviewExpensesPendingEl.textContent = pendingExpenses > 0 ? `(+ ${formatCurrency(pendingExpenses)} pendente)` : '';
+            
+            const projectedIncome = income + pendingIncome;
+            const projectedExpenses = expenses + pendingExpenses;
+            const projectedBalance = projectedIncome - projectedExpenses;
+
+            overviewIncomeEl.textContent = formatCurrency(projectedIncome);
+            overviewExpensesEl.textContent = formatCurrency(projectedExpenses);
+            overviewBalanceEl.textContent = formatCurrency(projectedBalance);
+
+            overviewIncomePendingEl.textContent = pendingIncome > 0 ? `(${formatCurrency(income)} confirmados)` : '';
+            overviewExpensesPendingEl.textContent = pendingExpenses > 0 ? `(${formatCurrency(expenses)} confirmados)` : '';
+
             const expenseByCategory = completedThisMonth.filter(t => t.type === 'saida').reduce((acc, t) => { acc[t.category]=(acc[t.category]||0)+t.amount; return acc; }, {});
             const chartLabels = Object.keys(expenseByCategory);
             const chartData = Object.values(expenseByCategory);
@@ -865,7 +874,7 @@
                 });
                 budgetBarsContainer.innerHTML += unbudgetedHTML;
             }
-            if(settings.savingsGoal > 0){ const savedAmount=balance; const savedPercent=Math.max(0,(savedAmount/settings.savingsGoal)*100); budgetBarsContainer.innerHTML+=`<div class="mt-6 border-t pt-4"><div class="flex justify-between items-center mb-1 text-sm"><span class="font-semibold text-gray-700">Meta de Economia</span><span class="text-gray-500"><span class="value-visible font-medium text-gray-800">${formatCurrency(savedAmount)}</span> / ${formatCurrency(settings.savingsGoal)}</span></div><div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden"><div class="bg-blue-500 h-4" style="width:${Math.min(savedPercent,100)}%"></div></div></div>`; }
+            if(settings.savingsGoal > 0){ const savedAmount = income - expenses; const savedPercent=Math.max(0,(savedAmount/settings.savingsGoal)*100); budgetBarsContainer.innerHTML+=`<div class="mt-6 border-t pt-4"><div class="flex justify-between items-center mb-1 text-sm"><span class="font-semibold text-gray-700">Meta de Economia</span><span class="text-gray-500"><span class="value-visible font-medium text-gray-800">${formatCurrency(savedAmount)}</span> / ${formatCurrency(settings.savingsGoal)}</span></div><div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden"><div class="bg-blue-500 h-4" style="width:${Math.min(savedPercent,100)}%"></div></div></div>`; }
         };
 
         const openForecastModal = () => { calculateAndRenderForecast(); forecastModal.classList.remove('hidden'); };
@@ -1155,42 +1164,42 @@
             }
         }));
         
+        // ALTERAÇÃO: Helper e listeners dos cards de resumo
         const addOverviewCardListeners = () => {
-            const getMonthTransactions = () => {
+            const getMonthTransactions = (includePending = false) => {
                 const currentMonth = currentPendingDate.getMonth();
                 const currentYear = currentPendingDate.getFullYear();
                 return transactions.filter(t => {
                     const tDate = new Date(t.date + 'T00:00:00');
-                    return t.status === 'completed' && tDate.getMonth() === currentMonth && tDate.getFullYear() === currentYear;
+                    const statusCondition = includePending ? true : t.status === 'completed';
+                    return statusCondition && tDate.getMonth() === currentMonth && tDate.getFullYear() === currentYear;
                 });
             };
 
             overviewIncomeCard.addEventListener('click', () => {
-                const monthTransactions = getMonthTransactions();
-                const incomeTransactions = monthTransactions.filter(t => t.type === 'entrada');
+                const monthTransactions = getMonthTransactions(true).filter(t => t.type === 'entrada');
                 const monthName = pendingMonthDisplay.textContent;
                 openTransactionsModal({
                     cardType: 'overview-income',
                     title: `Entradas de ${monthName}`,
-                    transactions: incomeTransactions,
+                    transactions: monthTransactions,
                     filters: ['category', 'subcategory']
                 });
             });
 
             overviewExpensesCard.addEventListener('click', () => {
-                const monthTransactions = getMonthTransactions();
-                const expenseTransactions = monthTransactions.filter(t => t.type === 'saida');
+                const monthTransactions = getMonthTransactions(true).filter(t => t.type === 'saida');
                 const monthName = pendingMonthDisplay.textContent;
                 openTransactionsModal({
                     cardType: 'overview-expenses',
                     title: `Saídas de ${monthName}`,
-                    transactions: expenseTransactions,
+                    transactions: monthTransactions,
                     filters: ['category', 'subcategory']
                 });
             });
 
             overviewBalanceCard.addEventListener('click', () => {
-                const monthTransactions = getMonthTransactions().filter(t => t.type === 'entrada' || t.type === 'saida');
+                const monthTransactions = getMonthTransactions(true).filter(t => t.type === 'entrada' || t.type === 'saida');
                 const monthName = pendingMonthDisplay.textContent;
                 openTransactionsModal({
                     cardType: 'overview-balance',
@@ -1272,7 +1281,6 @@
                             transactions.push(newInstance);
                         }
                     } else {
-                        // ALTERAÇÃO: Verifica a data para transações não recorrentes
                         const today = new Date();
                         today.setHours(0, 0, 0, 0);
                         const transactionDate = new Date(transactionData.date + 'T00:00:00');
