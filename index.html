@@ -117,7 +117,23 @@
                 </div>
             </div>
             <div class="bg-white p-5 rounded-lg shadow-md">
-                <div class="flex justify-between items-center mb-4"><h3 class="text-lg font-semibold text-gray-800">Visão Geral do Mês</h3><button class="toggle-visibility-btn text-gray-400 hover:text-gray-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></button></div>
+                <div class="flex justify-between items-center mb-4">
+                    <div class="flex items-center space-x-4">
+                        <h3 class="text-lg font-semibold text-gray-800">Visão Geral do Mês</h3>
+                         <div class="flex items-center space-x-2">
+                            <button id="prev-month-btn" class="p-1 rounded-full hover:bg-gray-200"><svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></button>
+                            <span id="pending-month-display" class="font-semibold text-gray-700 w-32 text-center"></span>
+                            <button id="next-month-btn" class="p-1 rounded-full hover:bg-gray-200"><svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button id="view-pending-btn" class="relative text-sm font-semibold text-blue-600 hover:text-blue-800 bg-blue-100 hover:bg-blue-200 px-3 py-1.5 rounded-md hidden">
+                            Ver Pendentes
+                            <span id="pending-count-badge" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                        </button>
+                        <button class="toggle-visibility-btn text-gray-400 hover:text-gray-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></button>
+                    </div>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-6">
                     <div><p class="text-sm text-gray-500">Entradas</p><p id="overview-income" class="text-xl font-bold text-green-600 value-visible">R$ 0,00</p><p id="overview-income-pending" class="text-xs text-gray-500 value-visible h-4"></p></div>
                     <div><p class="text-sm text-gray-500">Saídas</p><p id="overview-expenses" class="text-xl font-bold text-red-600 value-visible">R$ 0,00</p><p id="overview-expenses-pending" class="text-xs text-gray-500 value-visible h-4"></p></div>
@@ -128,18 +144,7 @@
                     <div id="budget-bars-container" class="md:col-span-2 space-y-4"></div>
                 </div>
             </div>
-            <div class="bg-white p-5 rounded-lg shadow-md">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-semibold text-gray-800">Pendentes de Aprovação</h3>
-                    <div class="flex items-center space-x-2">
-                        <button id="prev-month-btn" class="p-1 rounded-full hover:bg-gray-200"><svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></button>
-                        <span id="pending-month-display" class="font-semibold text-gray-700 w-32 text-center"></span>
-                        <button id="next-month-btn" class="p-1 rounded-full hover:bg-gray-200"><svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button>
-                    </div>
-                </div>
-                <div id="pending-list-dashboard"></div>
-            </div>
-        </main>
+            </main>
         <button id="add-transaction-btn" class="fixed bottom-6 right-6 bg-blue-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-lg hover:bg-blue-700 transition-transform transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 z-40"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg></button>
         <div id="transaction-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 p-4">
             <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-auto" role="dialog"><div class="flex justify-between items-center mb-4"><h2 id="modal-headline" class="text-xl font-bold text-gray-800">Nova Transação</h2><button id="close-modal-btn" class="text-gray-500 hover:text-gray-800">&times;</button></div><form id="transaction-form" novalidate><div class="mb-4"><span class="block text-sm font-medium text-gray-700 mb-2">Tipo</span><div id="transaction-type-container" class="grid grid-cols-3 gap-2"><div data-type="entrada" class="transaction-type-btn border-green-500 text-green-500 hover:bg-green-50 text-center">Entrada</div><div data-type="saida" class="transaction-type-btn border-red-500 text-red-500 hover:bg-red-50 text-center">Saída</div><div data-type="investimento" class="transaction-type-btn border-blue-500 text-blue-500 hover:bg-blue-50 text-center">Investimento</div></div></div>
@@ -148,7 +153,7 @@
                 <div id="is-variable-container" class="flex items-center hidden"><input id="is-variable" type="checkbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"><label for="is-variable" class="ml-2 block text-sm text-gray-900">Valor Variável</label></div>
                 <div id="recurrence-period-container" class="hidden"><select id="recurrence-period" class="block w-full border-gray-300 rounded-md shadow-sm text-sm focus:ring-blue-500 focus:border-blue-500"><option value="monthly">Mensal</option><option value="daily">Diária</option><option value="weekly">Semanal</option><option value="yearly">Anual</option></select></div>
             </div>
-            <div class="grid grid-cols-2 gap-4 mb-4"><div><label for="amount" class="block text-sm font-medium text-gray-700">Valor</label><input type="number" id="amount" name="amount" step="0.01" placeholder="R$ 0,00" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></div><div><label for="date" class="block text-sm font-medium text-gray-700">Data</label><input type="date" id="date" name="date" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></div></div><div class="grid grid-cols-2 gap-4 mb-4"><div><label for="category" class="block text-sm font-medium text-gray-700">Categoria</label><select id="category" name="category" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"><option value="">Selecione</option></select></div><div><label for="subcategory" class="block text-sm font-medium text-gray-700">Subcategoria</label><select id="subcategory" name="subcategory" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"><option value="">Selecione</option></select></div></div><div id="payment-method-container" class="mb-4"><label for="payment-method" class="block text-sm font-medium text-gray-700">Forma de Pagamento</label><select id="payment-method" name="payment-method" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"><option value="">Selecione</option><option>Cartão de Crédito</option><option>Cartão de Débito</option><option>Dinheiro</option><option>PIX</option><option>Transferência Bancária</option></select></div><div class="mb-6"><label for="description" class="block text-sm font-medium text-gray-700">Descrição</label><textarea id="description" name="description" rows="2" placeholder="Ex: Compras no supermercado" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea></div><div id="form-error-message" class="hidden text-red-600 text-sm mb-4 p-3 bg-red-100 rounded-md text-center"></div><button type="submit" class="w-full bg-blue-600 text-white py-2.5 px-4 rounded-md hover:bg-blue-700">Adicionar Transação</button></form></div>
+            <div class="grid grid-cols-2 gap-4 mb-4"><div><label for="amount" class="block text-sm font-medium text-gray-700">Valor</label><input type="number" id="amount" name="amount" step="0.01" placeholder="R$ 0,00" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></div><div><label for="date" class="block text-sm font-medium text-gray-700">Data da 1ª Ocorrência</label><input type="date" id="date" name="date" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></div></div><div class="grid grid-cols-2 gap-4 mb-4"><div><label for="category" class="block text-sm font-medium text-gray-700">Categoria</label><select id="category" name="category" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"><option value="">Selecione</option></select></div><div><label for="subcategory" class="block text-sm font-medium text-gray-700">Subcategoria</label><select id="subcategory" name="subcategory" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"><option value="">Selecione</option></select></div></div><div id="payment-method-container" class="mb-4"><label for="payment-method" class="block text-sm font-medium text-gray-700">Forma de Pagamento</label><select id="payment-method" name="payment-method" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"><option value="">Selecione</option><option>Cartão de Crédito</option><option>Cartão de Débito</option><option>Dinheiro</option><option>PIX</option><option>Transferência Bancária</option></select></div><div class="mb-6"><label for="description" class="block text-sm font-medium text-gray-700">Descrição</label><textarea id="description" name="description" rows="2" placeholder="Ex: Compras no supermercado" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea></div><div id="form-error-message" class="hidden text-red-600 text-sm mb-4 p-3 bg-red-100 rounded-md text-center"></div><button type="submit" class="w-full bg-blue-600 text-white py-2.5 px-4 rounded-md hover:bg-blue-700">Adicionar Transação</button></form></div>
         </div>
         <div id="transactions-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 p-4"><div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-4xl mx-auto max-h-[90vh] flex flex-col"><div class="flex justify-between items-center mb-4 border-b pb-2"><h2 id="transactions-modal-title" class="text-xl font-bold text-gray-800">Detalhes</h2><div class="flex items-center space-x-3"><button id="export-btn" class="hidden bg-green-600 text-white px-3 py-1.5 rounded-md hover:bg-green-700 text-sm font-semibold flex items-center space-x-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg><span>Exportar XLSX</span></button><button id="close-transactions-modal-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button></div></div><div id="transactions-modal-filters" class="mb-4"></div><div id="transactions-modal-list" class="overflow-y-auto flex-grow"></div></div></div>
         <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 p-4"><div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-2xl mx-auto max-h-[90vh] flex flex-col"><div class="flex justify-between items-center mb-4 border-b pb-2"><h2 class="text-xl font-bold text-gray-800">Configurações</h2><button id="close-settings-modal-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button></div><form id="settings-form" class="flex-grow overflow-y-auto pr-2 space-y-6"><div class="p-4 border rounded-md"><h3 class="text-lg font-semibold text-gray-700 mb-3">Geral</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label for="invoice-closing-day" class="block text-sm font-medium text-gray-700">Dia de Fechamento do Cartão</label><input type="number" id="invoice-closing-day" name="invoice-closing-day" min="1" max="31" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></div><div><label for="savings-goal" class="block text-sm font-medium text-gray-700">Meta de Economia Mensal</label><input type="number" id="savings-goal" name="savings-goal" step="0.01" placeholder="R$ 0,00" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></div></div></div><div class="p-4 border rounded-md"><h3 class="text-lg font-semibold text-gray-700 mb-3">Gerenciar Categorias e Orçamentos</h3><p class="text-sm text-gray-500 mb-4">Defina orçamentos e gerencie suas categorias e subcategorias.</p><div id="category-management-container" class="space-y-2"></div></div><div class="p-4 border rounded-md"><h3 class="text-lg font-semibold text-gray-700 mb-3">Importar & Exportar Dados</h3><p class="text-sm text-gray-500 mb-4">Faça backup ou restaure seus dados.</p><div class="grid grid-cols-1 md:grid-cols-3 gap-3"><button id="download-template-btn" type="button" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 font-semibold text-sm">Baixar Modelo</button><button id="export-all-btn" type="button" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 font-semibold text-sm">Exportar Tudo</button><button id="import-all-btn" type="button" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 font-semibold text-sm">Importar Dados</button></div><input type="file" id="import-file-input" class="hidden" accept=".xlsx"></div></form><div class="mt-6 pt-4 border-t"><button type="submit" form="settings-form" class="w-full bg-blue-600 text-white py-2.5 px-4 rounded-md hover:bg-blue-700">Salvar Alterações</button></div></div></div>
@@ -158,6 +163,17 @@
         <div id="debt-management-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 p-4"><div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-3xl mx-auto max-h-[90vh] flex flex-col"><div class="flex justify-between items-center mb-4 border-b pb-2"><h2 class="text-xl font-bold text-gray-800">Gerenciar Dívidas</h2><button id="close-debt-management-modal-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button></div><div id="debt-list-container" class="overflow-y-auto flex-grow mb-4"></div><div class="pt-4 border-t"><button id="add-new-debt-btn" class="w-full bg-blue-600 text-white py-2.5 px-4 rounded-md hover:bg-blue-700 font-semibold">+ Adicionar Nova Dívida</button></div></div></div>
         <div id="add-edit-debt-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-60 p-4"><div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg mx-auto"><div class="flex justify-between items-center mb-4"><h2 id="add-edit-debt-modal-title" class="text-xl font-bold text-gray-800">Nova Dívida</h2><button id="close-add-edit-debt-modal-btn" class="text-gray-500 hover:text-gray-800">&times;</button></div><form id="debt-form" novalidate class="space-y-4"><div><label for="debt-description" class="block text-sm font-medium text-gray-700">Descrição</label><input type="text" id="debt-description" placeholder="Ex: Financiamento do Carro" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div class="grid grid-cols-2 gap-4"><div><label for="debt-total-amount" class="block text-sm font-medium text-gray-700">Valor Total da Dívida</label><input type="number" id="debt-total-amount" step="0.01" placeholder="R$ 10.000,00" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div><label for="debt-down-payment" class="block text-sm font-medium text-gray-700">Valor de Entrada (Opcional)</label><input type="number" id="debt-down-payment" step="0.01" placeholder="R$ 2.000,00" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div></div><div class="grid grid-cols-2 gap-4"><div><label for="debt-installments-count" class="block text-sm font-medium text-gray-700">Nº de Parcelas</label><input type="number" id="debt-installments-count" step="1" placeholder="12" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div><label for="debt-start-date" class="block text-sm font-medium text-gray-700">Data da 1ª Parcela</label><input type="date" id="debt-start-date" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div></div><div class="grid grid-cols-2 gap-4"><div><label for="debt-interest-rate" class="block text-sm font-medium text-gray-700">Taxa de Juros (%)</label><input type="number" id="debt-interest-rate" step="0.01" placeholder="1.99" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div><div><label for="debt-interest-period" class="block text-sm font-medium text-gray-700">Período do Juro</label><select id="debt-interest-period" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"><option value="monthly">Ao Mês</option><option value="yearly">Ao Ano</option></select></div></div><div><span class="block text-sm font-medium text-gray-700 mb-2">Sistema de Amortização</span><div class="flex items-center gap-4"><label class="amortization-radio-label"><input type="radio" name="amortization-type" value="PRICE" class="sr-only" checked> Tabela PRICE</label><label class="amortization-radio-label"><input type="radio" name="amortization-type" value="SAC" class="sr-only"> Sistema SAC</label></div></div><div id="debt-form-error-message" class="hidden text-red-600 text-sm mb-4 p-3 bg-red-100 rounded-md text-center"></div><div class="pt-4"><button type="submit" class="w-full bg-blue-600 text-white py-2.5 px-4 rounded-md hover:bg-blue-700 font-semibold">Salvar Dívida</button></div></form></div></div>
         <div id="debt-details-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-60 p-4"><div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-4xl mx-auto max-h-[90vh] flex flex-col"><div class="flex justify-between items-center mb-4 border-b pb-2"><h2 id="debt-details-modal-title" class="text-xl font-bold text-gray-800">Detalhes da Dívida</h2><button id="close-debt-details-modal-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button></div><div class="overflow-y-auto flex-grow space-y-6"><div id="debt-summary-container" class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center p-4 bg-gray-50 rounded-lg"></div><div class="p-4 border rounded-lg"><h3 class="text-lg font-semibold text-gray-700 mb-3">Adiantar Pagamento / Simulação</h3><div class="flex flex-wrap items-end gap-4"><div><label for="prepayment-amount" class="block text-sm font-medium text-gray-700">Valor a Adiantar</label><input type="number" id="prepayment-amount" step="0.01" placeholder="R$ 1.000,00" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"></div><div><label for="prepayment-strategy" class="block text-sm font-medium text-gray-700">Estratégia</label><select id="prepayment-strategy" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3"><option value="reduce_term">Reduzir Prazo</option><option value="reduce_installment">Reduzir Valor da Parcela</option></select></div><div class="flex items-center gap-2"><button id="simulate-prepayment-btn" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 font-semibold text-sm">Simular</button><button id="confirm-prepayment-btn" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 font-semibold text-sm">Confirmar</button></div></div><div id="prepayment-simulation-result" class="mt-3 text-sm text-gray-700 bg-blue-50 p-3 rounded-md hidden"></div></div><div><h3 class="text-lg font-semibold text-gray-700 mb-2">Tabela de Amortização</h3><div id="debt-amortization-table-container" class="overflow-auto border rounded-lg"></div></div></div></div></div>
+
+        <div id="pending-transactions-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 p-4">
+            <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-2xl mx-auto max-h-[90vh] flex flex-col">
+                <div class="flex justify-between items-center mb-4 border-b pb-2">
+                    <h2 id="pending-modal-title" class="text-xl font-bold text-gray-800">Transações Pendentes</h2>
+                    <button id="close-pending-modal-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+                </div>
+                <div id="pending-modal-list" class="overflow-y-auto flex-grow">
+                    </div>
+            </div>
+        </div>
 
     </div>
 
@@ -179,7 +195,6 @@
         const transactionTypeBtns = document.querySelectorAll('.transaction-type-btn');
         const isFixedCheckbox = document.getElementById('is-fixed');
         const isVariableContainer = document.getElementById('is-variable-container');
-        // ALTERAÇÃO 3: Selecionando o container do período de recorrência
         const recurrencePeriodContainer = document.getElementById('recurrence-period-container');
         const amountInput = document.getElementById('amount');
         const dateInput = document.getElementById('date');
@@ -192,7 +207,6 @@
         const debtsValueEl = document.getElementById('debts-value');
         const investmentsValueEl = document.getElementById('investments-value');
         const invoiceValueEl = document.getElementById('invoice-value');
-        // ALTERAÇÃO 4: Selecionando os novos elementos da fatura
         const prevInvoiceBtn = document.getElementById('prev-invoice-btn');
         const nextInvoiceBtn = document.getElementById('next-invoice-btn');
         const invoicePeriodDisplay = document.getElementById('invoice-period-display');
@@ -205,7 +219,15 @@
         const transactionsModalList = document.getElementById('transactions-modal-list');
         const exportBtn = document.getElementById('export-btn');
         const cards = document.querySelectorAll('[data-card-type]');
-        const pendingListDashboard = document.getElementById('pending-list-dashboard');
+        
+        // ALTERAÇÃO 2: Seletores para os novos elementos de pendências
+        const viewPendingBtn = document.getElementById('view-pending-btn');
+        const pendingCountBadge = document.getElementById('pending-count-badge');
+        const pendingTransactionsModal = document.getElementById('pending-transactions-modal');
+        const closePendingModalBtn = document.getElementById('close-pending-modal-btn');
+        const pendingModalList = document.getElementById('pending-modal-list');
+        const pendingModalTitle = document.getElementById('pending-modal-title');
+
         const prevMonthBtn = document.getElementById('prev-month-btn');
         const nextMonthBtn = document.getElementById('next-month-btn');
         const pendingMonthDisplay = document.getElementById('pending-month-display');
@@ -267,10 +289,9 @@
         let fixedTransactionTemplates = [];
         let debts = [];
         let currentPendingDate = new Date();
-        // ALTERAÇÃO 4: Variável para controlar o mês da fatura
         let invoiceMonthOffset = 0; 
         let selectedTransactionType = null;
-        let areValuesVisible = true; // Mantido como true, será invertido no login
+        let areValuesVisible = true;
         let currentSort = { key: 'date', direction: 'desc' };
         let modalTransactionData = [];
         let currentFilteredModalData = [];
@@ -339,7 +360,6 @@
                 loginScreen.classList.add('hidden');
                 appContainer.classList.remove('hidden');
                 loadData().then(() => {
-                    // ALTERAÇÃO 1: Ocultar valores ao carregar o app
                     toggleValuesVisibility();
                 });
             } else {
@@ -356,31 +376,47 @@
         const formatCurrency = (value) => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
         const formatDate = (dateString) => new Date(dateString + 'T00:00:00').toLocaleDateString('pt-BR');
 
-        const renderPendingTransactionsOnDashboard = () => {
-            const monthName = currentPendingDate.toLocaleString('pt-BR', { month: 'long' });
-            const year = currentPendingDate.getFullYear();
-            pendingMonthDisplay.textContent = `${monthName.charAt(0).toUpperCase() + monthName.slice(1)} ${year}`;
+        // ALTERAÇÃO 2: Função para renderizar lista de pendentes no NOVO modal
+        const renderPendingModalList = () => {
+            const monthName = currentPendingDate.toLocaleString('pt-BR', { month: 'long', year: 'numeric' });
+            pendingModalTitle.textContent = `Pendentes de ${monthName.charAt(0).toUpperCase() + monthName.slice(1)}`;
+
             const currentMonth = currentPendingDate.getMonth();
             const currentYear = currentPendingDate.getFullYear();
             const pendingTransactionsThisMonth = transactions.filter(t => {
                 const tDate = new Date(t.date + 'T00:00:00');
                 return t.status === 'pending' && tDate.getMonth() === currentMonth && tDate.getFullYear() === currentYear;
             }).sort((a, b) => new Date(a.date) - new Date(b.date));
+
             if (pendingTransactionsThisMonth.length === 0) {
-                pendingListDashboard.innerHTML = '<p class="text-sm text-gray-500 text-center py-4">Nenhuma transação pendente para este mês.</p>';
+                pendingModalList.innerHTML = '<p class="text-sm text-gray-500 text-center py-8">Nenhuma transação pendente para este mês.</p>';
                 return;
             }
-            let html = '<div class="space-y-3">' + pendingTransactionsThisMonth.map(t => {
+
+            let html = '<div class="space-y-2">' + pendingTransactionsThisMonth.map(t => {
                 const isDebtPayment = t.debtId;
                 const amountField = t.isVariable && !isDebtPayment
-                    ? `<input type="number" step="0.01" data-amount-input-id="${t.id}" value="${t.amount.toFixed(2)}" class="w-32 border border-gray-300 rounded-md py-1 px-2 text-right font-bold text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">`
-                    : `<p class="font-bold text-gray-800">${formatCurrency(t.amount)}</p>`;
-                return `<div class="flex items-center justify-between p-3 bg-gray-50 rounded-md border space-x-4"><div class="flex-1 min-w-0"><p class="font-medium text-gray-800 truncate">${t.description||'Transação Recorrente'}</p><p class="text-sm text-gray-500">${formatDate(t.date)} ${t.isVariable?'<span class="text-xs font-semibold bg-blue-100 text-blue-800 py-0.5 px-1.5 rounded-full ml-2">Valor Variável</span>':''} ${isDebtPayment?`<span class="text-xs font-semibold bg-orange-100 text-orange-800 py-0.5 px-1.5 rounded-full ml-2">Dívida ${t.installmentNumber}/${t.installmentsTotal}</span>`:''}</p></div><div class="flex-shrink-0">${amountField}</div><div class="flex-shrink-0 flex items-center space-x-2"><button data-action="approve" data-id="${t.id}" title="Aprovar" class="p-2 text-green-600 hover:bg-green-100 rounded-full"><svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button><button data-action="delete" data-id="${t.id}" title="Excluir" class="p-2 text-red-600 hover:bg-red-100 rounded-full"><svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div></div>`;
+                    ? `<input type="number" step="0.01" data-amount-input-id="${t.id}" value="${t.amount.toFixed(2)}" class="w-28 border border-gray-300 rounded-md py-1 px-2 text-sm text-right font-semibold text-gray-800 focus:outline-none focus:ring-1 focus:ring-blue-500">`
+                    : `<p class="font-semibold text-gray-800 text-sm">${formatCurrency(t.amount)}</p>`;
+                
+                return `<div class="flex items-center justify-between p-2.5 bg-gray-50 rounded-lg border space-x-3">
+                            <div class="flex-1 min-w-0">
+                                <p class="font-medium text-gray-800 text-sm truncate" title="${t.description || 'Transação Recorrente'}">${t.description || 'Transação Recorrente'}</p>
+                                <p class="text-xs text-gray-500">${formatDate(t.date)}
+                                    ${t.isVariable ? '<span class="text-xs font-semibold bg-blue-100 text-blue-800 py-0.5 px-1 rounded-full ml-1.5">Variável</span>' : ''}
+                                    ${isDebtPayment ? `<span class="text-xs font-semibold bg-orange-100 text-orange-800 py-0.5 px-1 rounded-full ml-1.5">Dívida ${t.installmentNumber}/${t.installmentsTotal}</span>` : ''}
+                                </p>
+                            </div>
+                            <div class="flex-shrink-0">${amountField}</div>
+                            <div class="flex-shrink-0 flex items-center space-x-1">
+                                <button data-action="approve" data-id="${t.id}" title="Aprovar" class="p-1.5 text-green-600 hover:bg-green-100 rounded-full"><svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button>
+                                <button data-action="delete" data-id="${t.id}" title="Excluir" class="p-1.5 text-red-600 hover:bg-red-100 rounded-full"><svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                            </div>
+                        </div>`;
             }).join('') + '</div>';
-            pendingListDashboard.innerHTML = html;
+            pendingModalList.innerHTML = html;
         };
         
-        // ALTERAÇÃO 4: Nova função para calcular o período da fatura
         const getInvoicePeriod = (offset = 0) => {
             const closingDay = settings.invoiceClosingDay || 1;
             const now = new Date();
@@ -404,7 +440,6 @@
             const totalInvestido = completedTransactions.filter(t => t.type === 'investimento').reduce((acc, t) => acc + t.amount, 0);
             const totalDebtBalance = debts.reduce((sum, debt) => debt.installments.filter(p => p.status === 'pending').reduce((s, p) => s + p.principal, 0) + sum, 0);
             
-            // ALTERAÇÃO 4: Lógica de cálculo da fatura atualizada
             const { startDate, endDate } = getInvoicePeriod(invoiceMonthOffset);
             invoicePeriodDisplay.textContent = endDate.toLocaleString('pt-BR', { month: 'short', year: '2-digit' }).toUpperCase();
             prevInvoiceBtn.disabled = invoiceMonthOffset === 0;
@@ -419,7 +454,6 @@
             investmentsValueEl.textContent = formatCurrency(totalInvestido);
             invoiceValueEl.textContent = formatCurrency(faturaAtual);
             debtsValueEl.textContent = formatCurrency(totalDebtBalance);
-            renderPendingTransactionsOnDashboard();
             updateOverviewCard();
         };
 
@@ -463,30 +497,9 @@
             if (action === 'approve') {
                 if(transaction.isVariable && !transaction.debtId){const inputEl=document.querySelector(`input[data-amount-input-id="${transactionId}"]`);if(inputEl){const newAmount=parseFloat(inputEl.value);if(!isNaN(newAmount)&&newAmount>0){transaction.amount=newAmount}else{inputEl.focus();inputEl.classList.add('invalid-field');setTimeout(()=>inputEl.classList.remove('invalid-field'),2000);return}}}
                 transaction.status = 'completed';
-                if (transaction.templateId) {
-                    const template = fixedTransactionTemplates.find(t => t.id === transaction.templateId);
-                    if(template) {
-                        const currentTransactionDate = new Date(transaction.date + 'T12:00:00Z');
-                        const nextDate = new Date(currentTransactionDate.getTime());
-                        
-                        // ALTERAÇÃO 3: Lógica de criação da próxima recorrência
-                        const period = template.recurrencePeriod || 'monthly';
-                        switch (period) {
-                            case 'daily': nextDate.setUTCDate(nextDate.getUTCDate() + 1); break;
-                            case 'weekly': nextDate.setUTCDate(nextDate.getUTCDate() + 7); break;
-                            case 'yearly': nextDate.setUTCFullYear(nextDate.getUTCFullYear() + 1); break;
-                            case 'monthly':
-                            default:
-                                nextDate.setUTCMonth(nextDate.getUTCMonth() + 1);
-                                const originalDay = currentTransactionDate.getUTCDate();
-                                if (nextDate.getUTCDate() !== originalDay) nextDate.setUTCDate(0);
-                                break;
-                        }
-                        
-                        const nextInstance = { ...template, id: Date.now(), templateId: template.id, status: 'pending', date: nextDate.toISOString().split('T')[0] };
-                        transactions.push(nextInstance);
-                    }
-                }
+                
+                // ALTERAÇÃO 1: REMOVIDA a lógica de criar a próxima recorrência daqui.
+                
                 if (transaction.debtId && transaction.installmentNumber) {
                     const debt = debts.find(d => d.id === transaction.debtId);
                     if(debt){const installment=debt.installments.find(p=>p.number===transaction.installmentNumber);if(installment)installment.status='paid'}
@@ -495,33 +508,12 @@
                 if (transaction.templateId) {
                     const choice = await showGenericModal({title:'Excluir Transação Pendente',message:'Esta é uma transação recorrente. O que você deseja fazer?',buttons:[{text:'Cancelar',value:'cancel',classes:'bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 font-semibold'},{text:'Excluir Somente Esta',value:'one',classes:'bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 font-semibold'},{text:'Parar Recorrência',value:'all',classes:'bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 font-semibold'}]});
                     if (choice === 'one') {
-                         // A lógica para criar a próxima instância ao aprovar já lida com a continuidade.
-                         // Aqui apenas removemos a atual, sem parar a recorrência.
-                         // A próxima será criada quando a anterior a esta for aprovada.
-                         // Se nenhuma anterior existir, a recorrência para. Para corrigir isso, criamos a próxima aqui.
-                        const template=fixedTransactionTemplates.find(t=>t.id===transaction.templateId);
-                        if(template){
-                            const currentTransactionDate=new Date(transaction.date+'T12:00:00Z');
-                            const nextDate=new Date(currentTransactionDate.getTime());
-                            const period = template.recurrencePeriod || 'monthly';
-                            switch (period) {
-                                case 'daily': nextDate.setUTCDate(nextDate.getUTCDate() + 1); break;
-                                case 'weekly': nextDate.setUTCDate(nextDate.getUTCDate() + 7); break;
-                                case 'yearly': nextDate.setUTCFullYear(nextDate.getUTCFullYear() + 1); break;
-                                case 'monthly': default:
-                                    nextDate.setUTCMonth(nextDate.getUTCMonth() + 1);
-                                    const originalDay = currentTransactionDate.getUTCDate();
-                                    if(nextDate.getUTCDate() !== originalDay) nextDate.setUTCDate(0);
-                                    break;
-                            }
-                            const nextInstance={...template,id:Date.now(),templateId:template.id,status:'pending',date:nextDate.toISOString().split('T')[0]};
-                            transactions.push(nextInstance);
-                        }
-                        transactions.splice(transactionIndex, 1);
+                         transactions.splice(transactionIndex, 1);
                     } else if (choice === 'all') {
+                        // ALTERAÇÃO 1: Nova lógica para excluir todas as futuras pendências e o template
                         const templateIdToDelete = transaction.templateId;
+                        transactions = transactions.filter(t => t.templateId !== templateIdToDelete || t.status === 'completed');
                         fixedTransactionTemplates = fixedTransactionTemplates.filter(t => t.id !== templateIdToDelete);
-                        transactions.splice(transactionIndex, 1);
                     }
                 } else if (transaction.debtId) {
                     await showGenericModal({type:'alert',title:'Ação Inválida',message:'Parcelas de dívidas não podem ser excluídas por aqui. Para cancelar, gerencie a dívida original.'});
@@ -532,6 +524,10 @@
             }
             await saveData();
             updateDashboard();
+            // ALTERAÇÃO 2: Atualiza a lista no modal se ele estiver aberto
+            if(!pendingTransactionsModal.classList.contains('hidden')){
+                renderPendingModalList();
+            }
         };
 
         const applyFiltersAndRender = (baseData, cardType) => {
@@ -608,7 +604,6 @@
             isFixedCheckbox.checked = transaction.isFixed;
             isFixedCheckbox.disabled = true;
             isVariableContainer.classList.toggle('hidden', !transaction.isFixed);
-            // ALTERAÇÃO 3: Lógica para exibir/ocultar período de recorrência na edição
             recurrencePeriodContainer.classList.toggle('hidden', !transaction.isFixed);
             if (transaction.isFixed && transaction.recurrencePeriod) {
                 document.getElementById('recurrence-period').value = transaction.recurrencePeriod;
@@ -750,11 +745,24 @@
         };
 
         const updateOverviewCard = () => {
+            const monthName = currentPendingDate.toLocaleString('pt-BR', { month: 'long' });
+            const year = currentPendingDate.getFullYear();
+            pendingMonthDisplay.textContent = `${monthName.charAt(0).toUpperCase() + monthName.slice(1)} ${year}`;
+
             const currentMonth = currentPendingDate.getMonth();
             const currentYear = currentPendingDate.getFullYear();
             const transactionsThisMonth = transactions.filter(t => { const tDate=new Date(t.date+'T00:00:00'); return tDate.getMonth()===currentMonth&&tDate.getFullYear()===currentYear; });
             const completedThisMonth = transactionsThisMonth.filter(t => t.status === 'completed');
             const pendingThisMonth = transactionsThisMonth.filter(t => t.status === 'pending');
+            
+            // ALTERAÇÃO 2: Lógica do botão/badge de pendentes
+            if (pendingThisMonth.length > 0) {
+                pendingCountBadge.textContent = pendingThisMonth.length;
+                viewPendingBtn.classList.remove('hidden');
+            } else {
+                viewPendingBtn.classList.add('hidden');
+            }
+
             const income = completedThisMonth.filter(t => t.type === 'entrada').reduce((sum, t) => sum + t.amount, 0);
             const expenses = completedThisMonth.filter(t => t.type === 'saida').reduce((sum, t) => sum + t.amount, 0);
             const balance = income - expenses;
@@ -799,6 +807,7 @@
 
         const openForecastModal = () => { calculateAndRenderForecast(); forecastModal.classList.remove('hidden'); };
         const closeForecastModal = () => forecastModal.classList.add('hidden');
+        
         const calculateAndRenderForecast = () => {
             const completed = transactions.filter(t => t.status === 'completed' && !t.templateId);
             const historicalMonths = new Set();
@@ -821,18 +830,28 @@
             const labels = []; const incomeData = []; const expenseData = []; const balanceData = [];
             const completedTransactions = transactions.filter(t => t.status === 'completed');
             const currentBalance = completedTransactions.filter(t => t.type === 'entrada').reduce((acc, t) => acc + t.amount, 0) - completedTransactions.filter(t => t.type === 'saida' || t.type === 'investimento').reduce((acc, t) => acc + t.amount, 0);
+            
             let cumulativeBalance = currentBalance;
+            let cumulativeIncome = 0;
+            let cumulativeExpenses = 0;
+
             forecastDataForExport = [];
             for (let i = 1; i <= 12; i++) {
                 const futureDate = new Date(); futureDate.setMonth(futureDate.getMonth() + i);
                 labels.push(futureDate.toLocaleString('pt-BR', { month: 'short', year: '2-digit' }));
+                
                 cumulativeBalance += totalAvgBalance;
-                incomeData.push(totalAvgIncome); expenseData.push(totalAvgExpense + totalAvgInvestment); balanceData.push(cumulativeBalance);
-                forecastDataForExport.push({ 'Mês': futureDate.toLocaleString('pt-BR', { month: 'long', year: 'numeric' }), 'Receita Projetada': totalAvgIncome, 'Despesa Projetada': totalAvgExpense + totalAvgInvestment, 'Saldo Projetado': cumulativeBalance });
+                cumulativeIncome += totalAvgIncome;
+                cumulativeExpenses += (totalAvgExpense + totalAvgInvestment);
+                
+                incomeData.push(cumulativeIncome); 
+                expenseData.push(cumulativeExpenses); 
+                balanceData.push(cumulativeBalance);
+                
+                forecastDataForExport.push({ 'Mês': futureDate.toLocaleString('pt-BR', { month: 'long', year: 'numeric' }), 'Receita Projetada': cumulativeIncome, 'Despesa Projetada': cumulativeExpenses, 'Saldo Projetado': cumulativeBalance });
             }
             if(forecastChartInstance) forecastChartInstance.destroy();
-            // ALTERAÇÃO 5: Removido `hidden: true` das receitas e despesas
-            forecastChartInstance = new Chart(forecastChartCanvas, { type: 'line', data: { labels: labels, datasets: [ { label: 'Saldo', data: balanceData, borderColor: '#3b82f6', backgroundColor: '#3b82f620', fill: true, tension: 0.1 }, { label: 'Receitas', data: incomeData, borderColor: '#22c55e' }, { label: 'Despesas', data: expenseData, borderColor: '#ef4444' } ] }, options: { responsive: true, maintainAspectRatio: false } });
+            forecastChartInstance = new Chart(forecastChartCanvas, { type: 'line', data: { labels: labels, datasets: [ { label: 'Saldo', data: balanceData, borderColor: '#3b82f6', backgroundColor: '#3b82f620', fill: true, tension: 0.1 }, { label: 'Receitas', data: incomeData, borderColor: '#22c55e', tension: 0.1 }, { label: 'Despesas', data: expenseData, borderColor: '#ef4444', tension: 0.1 } ] }, options: { responsive: true, maintainAspectRatio: false } });
         };
         const exportForecastDataToXLSX = () => {
             if(forecastDataForExport.length===0){showGenericModal({type:'alert',title:'Aviso',message:'Não há dados para exportar.'});return}
@@ -1024,7 +1043,6 @@
         isFixedCheckbox.addEventListener('change', () => { 
             const isChecked = isFixedCheckbox.checked;
             isVariableContainer.classList.toggle('hidden', !isChecked);
-            // ALTERAÇÃO 3: Exibe/oculta o seletor de período
             recurrencePeriodContainer.classList.toggle('hidden', !isChecked);
         });
         categorySelect.addEventListener('change', populateSubcategories);
@@ -1048,12 +1066,10 @@
         nextMonthBtn.addEventListener('click', () => { currentPendingDate.setMonth(currentPendingDate.getMonth() + 1); updateDashboard(); });
         transactionTypeBtns.forEach(btn => btn.addEventListener('click', () => { transactionTypeBtns.forEach(b => b.classList.remove('active')); btn.classList.add('active'); selectedTransactionType = btn.dataset.type; updateFormForType(selectedTransactionType); }));
         
-        // ALTERAÇÃO 4: Eventos para navegação da fatura
         prevInvoiceBtn.addEventListener('click', () => { if (invoiceMonthOffset > 0) { invoiceMonthOffset--; updateDashboard(); } });
         nextInvoiceBtn.addEventListener('click', () => { invoiceMonthOffset++; updateDashboard(); });
 
         cards.forEach(card => card.addEventListener('click', (e) => {
-            // Previne que o clique nos botões de navegação da fatura abra o modal
             if (e.target.closest('#prev-invoice-btn') || e.target.closest('#next-invoice-btn')) {
                 return;
             }
@@ -1097,7 +1113,6 @@
                     const isFixed = isFixedCheckbox.checked;
                     transactionData.isFixed = isFixed;
                     transactionData.isVariable = isFixed ? document.getElementById('is-variable').checked : false;
-                    // ALTERAÇÃO 3: Salva o período de recorrência
                     transactionData.recurrencePeriod = isFixed ? document.getElementById('recurrence-period').value : null;
 
                     if (isFixed) {
@@ -1105,7 +1120,36 @@
                         delete templateBase.date;
                         templateBase.id = `template-${Date.now()}`;
                         fixedTransactionTemplates.push(templateBase);
-                        transactions.push({ ...transactionData, id: Date.now(), templateId: templateBase.id, status: 'pending' });
+
+                        // ALTERAÇÃO 1: Lógica para criar múltiplas pendências
+                        const startDate = new Date(transactionData.date + 'T12:00:00Z');
+                        const period = transactionData.recurrencePeriod;
+                        let iterations = 24; // Padrão para mensal/anual
+                        if (period === 'daily') iterations = 90;
+                        if (period === 'weekly') iterations = 52;
+                        
+                        for (let i = 0; i < iterations; i++) {
+                            const nextDate = new Date(startDate.getTime());
+                            switch (period) {
+                                case 'daily': nextDate.setUTCDate(startDate.getUTCDate() + i); break;
+                                case 'weekly': nextDate.setUTCDate(startDate.getUTCDate() + (i * 7)); break;
+                                case 'yearly': nextDate.setUTCFullYear(startDate.getUTCFullYear() + i); break;
+                                case 'monthly': default:
+                                    nextDate.setUTCMonth(startDate.getUTCMonth() + i);
+                                    if (nextDate.getUTCDate() !== startDate.getUTCDate()) {
+                                        nextDate.setUTCDate(0);
+                                    }
+                                    break;
+                            }
+                            const newInstance = { 
+                                ...transactionData, 
+                                id: Date.now() + i, 
+                                templateId: templateBase.id, 
+                                status: 'pending',
+                                date: nextDate.toISOString().split('T')[0]
+                            };
+                            transactions.push(newInstance);
+                        }
                     } else {
                         transactions.push({ ...transactionData, id: Date.now(), status: 'completed' });
                     }
@@ -1191,10 +1235,20 @@
 
         categoryManagementContainer.addEventListener('click', handleCategoryManagementAction);
         categoryManagementContainer.addEventListener('change', handleCategoryManagementAction);
-        pendingListDashboard.addEventListener('click', handlePendingAction);
+        
+        // ALTERAÇÃO 2: Listeners para o novo modal de pendentes
+        viewPendingBtn.addEventListener('click', () => {
+            renderPendingModalList();
+            pendingTransactionsModal.classList.remove('hidden');
+        });
+        closePendingModalBtn.addEventListener('click', () => pendingTransactionsModal.classList.add('hidden'));
+        pendingTransactionsModal.addEventListener('click', (e) => {
+            if (e.target === pendingTransactionsModal) pendingTransactionsModal.classList.add('hidden');
+        });
+        pendingModalList.addEventListener('click', handlePendingAction);
+        
         closeDebtManagementModalBtn.addEventListener('click', closeDebtManagementModal);
         debtManagementModal.addEventListener('click', (e) => { if(e.target === debtManagementModal) closeDebtManagementModal() });
-        // ALTERAÇÃO 2: Fechar modal de gerenciamento ao abrir o de adição
         addNewDebtBtn.addEventListener('click', () => {
             closeDebtManagementModal();
             openAddEditDebtModal();
