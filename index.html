@@ -507,7 +507,7 @@
 
         const openModalForEdit = (transactionId) => {
             const transaction = transactions.find(t => t.id === transactionId);
-            if (!transaction || transaction.status !== 'completed') { if(transaction?.status==='pending') showGenericModal({type:'alert',title:'Aviso',message:'Não é possível editar uma transação pendente. Aprove-a primeiro.'}); return; };
+            if (!transaction) return;
             if (transaction.debtId) { showGenericModal({type:'alert',title:'Aviso',message:'Pagamentos de dívidas não podem ser editados diretamente.'}); return; }
             editingTransactionId = transactionId;
             document.getElementById('modal-headline').textContent = 'Editar Transação';
