@@ -168,7 +168,29 @@
             </div>
             <div class="grid grid-cols-2 gap-4 mb-4"><div><label for="amount" class="block text-sm font-medium text-gray-700">Valor</label><input type="number" id="amount" name="amount" step="0.01" placeholder="R$ 0,00" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></div><div><label for="date" class="block text-sm font-medium text-gray-700">Data da 1ª Ocorrência</label><input type="date" id="date" name="date" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></div></div><div class="grid grid-cols-2 gap-4 mb-4"><div><label for="category" class="block text-sm font-medium text-gray-700">Categoria</label><select id="category" name="category" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"><option value="">Selecione</option></select></div><div><label for="subcategory" class="block text-sm font-medium text-gray-700">Subcategoria</label><select id="subcategory" name="subcategory" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"><option value="">Selecione</option></select></div></div><div id="payment-method-container" class="mb-4"><label for="payment-method" class="block text-sm font-medium text-gray-700">Forma de Pagamento</label><select id="payment-method" name="payment-method" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"><option value="">Selecione</option><option>Cartão de Crédito</option><option>Cartão de Débito</option><option>Dinheiro</option><option>PIX</option><option>Transferência Bancária</option></select></div><div class="mb-6"><label for="description" class="block text-sm font-medium text-gray-700">Descrição</label><textarea id="description" name="description" rows="2" placeholder="Ex: Compras no supermercado" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea></div><div id="form-error-message" class="hidden text-red-600 text-sm mb-4 p-3 bg-red-100 rounded-md text-center"></div><button type="submit" class="w-full bg-blue-600 text-white py-2.5 px-4 rounded-md hover:bg-blue-700">Adicionar Transação</button></form></div>
         </div>
-        <div id="transactions-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 p-4"><div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-4xl mx-auto max-h-[90vh] flex flex-col"><div class="flex justify-between items-center mb-4 border-b pb-2"><h2 id="transactions-modal-title" class="text-xl font-bold text-gray-800">Detalhes</h2><div class="flex items-center space-x-3"><button id="export-btn" class="hidden bg-green-600 text-white px-3 py-1.5 rounded-md hover:bg-green-700 text-sm font-semibold flex items-center space-x-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg><span>Exportar XLSX</span></button><button id="close-transactions-modal-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button></div></div><div id="transactions-modal-filters" class="mb-4"></div><div id="transactions-modal-list" class="overflow-y-auto flex-grow"></div></div></div>
+        <div id="transactions-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 p-4">
+            <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-4xl mx-auto max-h-[90vh] flex flex-col">
+                <div class="flex justify-between items-center mb-4 border-b pb-2">
+                    <h2 id="transactions-modal-title" class="text-xl font-bold text-gray-800">Detalhes</h2>
+                    <div class="flex items-center space-x-3">
+                        <button id="export-btn" class="hidden bg-green-600 text-white px-3 py-1.5 rounded-md hover:bg-green-700 text-sm font-semibold flex items-center space-x-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg><span>Exportar XLSX</span></button>
+                        <button id="close-transactions-modal-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button>
+                    </div>
+                </div>
+                <div id="transactions-modal-filters" class="mb-4"></div>
+                <div id="transactions-modal-list" class="overflow-y-auto flex-grow"></div>
+                <div id="transactions-modal-footer" class="mt-4 pt-4 border-t flex justify-end space-x-6 text-right hidden">
+                    <div>
+                        <p class="text-sm text-gray-500">Total do Período</p>
+                        <p id="modal-total-period" class="text-lg font-bold"></p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Total Filtrado</p>
+                        <p id="modal-total-filtered" class="text-lg font-bold"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 p-4"><div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-2xl mx-auto max-h-[90vh] flex flex-col"><div class="flex justify-between items-center mb-4 border-b pb-2"><h2 class="text-xl font-bold text-gray-800">Configurações</h2><button id="close-settings-modal-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button></div><form id="settings-form" class="flex-grow overflow-y-auto pr-2 space-y-6"><div class="p-4 border rounded-md"><h3 class="text-lg font-semibold text-gray-700 mb-3">Geral</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div><label for="invoice-closing-day" class="block text-sm font-medium text-gray-700">Dia de Fechamento do Cartão</label><input type="number" id="invoice-closing-day" name="invoice-closing-day" min="1" max="31" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></div><div><label for="savings-goal" class="block text-sm font-medium text-gray-700">Meta de Economia Mensal</label><input type="number" id="savings-goal" name="savings-goal" step="0.01" placeholder="R$ 0,00" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></div></div></div><div class="p-4 border rounded-md"><h3 class="text-lg font-semibold text-gray-700 mb-3">Gerenciar Categorias e Orçamentos</h3><p class="text-sm text-gray-500 mb-4">Defina orçamentos e gerencie suas categorias e subcategorias.</p><div id="category-management-container" class="space-y-2"></div></div><div class="p-4 border rounded-md"><h3 class="text-lg font-semibold text-gray-700 mb-3">Importar & Exportar Dados</h3><p class="text-sm text-gray-500 mb-4">Faça backup ou restaure seus dados.</p><div class="grid grid-cols-1 md:grid-cols-3 gap-3"><button id="download-template-btn" type="button" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 font-semibold text-sm">Baixar Modelo</button><button id="export-all-btn" type="button" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 font-semibold text-sm">Exportar Tudo</button><button id="import-all-btn" type="button" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 font-semibold text-sm">Importar Dados</button></div><input type="file" id="import-file-input" class="hidden" accept=".xlsx"></div></form><div class="mt-6 pt-4 border-t"><button type="submit" form="settings-form" class="w-full bg-blue-600 text-white py-2.5 px-4 rounded-md hover:bg-blue-700">Salvar Alterações</button></div></div></div>
         <div id="forecast-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 p-4"><div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-4xl mx-auto max-h-[90vh] flex flex-col"><div class="flex justify-between items-center mb-4 border-b pb-2"><h2 class="text-xl font-bold text-gray-800">Previsão Futura</h2><div class="flex items-center space-x-3"><button id="export-forecast-btn" class="bg-green-600 text-white px-3 py-1.5 rounded-md hover:bg-green-700 text-sm font-semibold flex items-center space-x-2"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg><span>Exportar XLSX</span></button><button id="close-forecast-modal-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button></div></div><div class="overflow-y-auto flex-grow"><div class="mb-6 p-4 bg-gray-50 rounded-lg border"><h3 class="text-lg font-semibold text-gray-700 mb-3">Médias Mensais Projetadas</h3><div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center"><div><p class="text-sm text-gray-500">Renda Média</p><p id="forecast-avg-income" class="text-xl font-bold text-green-600">R$ 0,00</p></div><div><p class="text-sm text-gray-500">Despesa Média</p><p id="forecast-avg-expense" class="text-xl font-bold text-red-600">R$ 0,00</p></div><div><p class="text-sm text-gray-500">Investimento Médio</p><p id="forecast-avg-investment" class="text-xl font-bold text-blue-600">R$ 0,00</p></div><div><p class="text-sm text-gray-500">Saldo Médio</p><p id="forecast-avg-balance" class="text-xl font-bold text-gray-800">R$ 0,00</p></div></div></div><div><h3 class="text-lg font-semibold text-gray-700 mb-3">Projeção de Saldo para os Próximos 12 Meses</h3><div class="h-80"><canvas id="forecast-chart"></canvas></div></div></div></div></div>
         <div id="ai-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 p-4"><div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-2xl mx-auto max-h-[90vh] flex flex-col"><div class="flex justify-between items-center mb-4 border-b pb-2"><h2 class="text-xl font-bold text-gray-800">Análise Inteligente</h2><button id="close-ai-modal-btn" class="text-gray-500 hover:text-gray-800 text-3xl">&times;</button></div><div id="ai-content" class="overflow-y-auto flex-grow p-2"><div id="ai-initial-state"><div class="text-center p-6"><svg class="w-16 h-16 mx-auto text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg><h3 class="mt-4 text-lg font-medium text-gray-900">Insights para suas Finanças</h3><p class="mt-2 text-sm text-gray-500">Receba dicas personalizadas. A IA analisará anonimamente seus dados dos últimos 3 meses.</p><button id="analyze-finance-btn" class="mt-6 w-full bg-purple-600 text-white py-2.5 px-4 rounded-md hover:bg-purple-700">Analisar minhas finanças</button></div></div><div id="ai-loading-state" class="hidden text-center p-10"><svg class="animate-spin h-8 w-8 text-purple-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><p class="mt-4 text-gray-600 font-medium">Analisando seus dados...</p></div><div id="ai-result-state" class="hidden"></div></div></div></div>
@@ -189,8 +211,9 @@
         </div>
 
     </div>
-    
+
     <script>
+    // SCRIPT COMPLETO COM TODAS AS CORREÇÕES E FUNCIONALIDADES
     document.addEventListener('DOMContentLoaded', () => {
         const { auth, database, provider, signInWithPopup, signOut, onAuthStateChanged, ref, set, get } = window.firebaseSDK;
         const loginScreen = document.getElementById('login-screen');
@@ -298,7 +321,6 @@
         const categoryChartCanvas = document.getElementById('category-chart');
         const budgetBarsContainer = document.getElementById('budget-bars-container');
 
-        // ALTERAÇÃO: Seletores para os novos cards clicáveis
         const overviewIncomeCard = document.getElementById('overview-income-card');
         const overviewExpensesCard = document.getElementById('overview-expenses-card');
         const overviewBalanceCard = document.getElementById('overview-balance-card');
@@ -552,9 +574,21 @@
             if (activeFilters.type !== 'all') filteredData = filteredData.filter(t => t.type === activeFilters.type);
             if (activeFilters.category !== 'all') filteredData = filteredData.filter(t => t.category === activeFilters.category);
             if (activeFilters.subcategory !== 'all') filteredData = filteredData.filter(t => t.subcategory === activeFilters.subcategory);
-            const totalAmount = filteredData.reduce((sum, t) => {if(t.type==='entrada')return sum+t.amount;if(t.type==='saida'||t.type==='investimento')return sum-t.amount;return sum}, 0);
-            const totalEl=document.getElementById('modal-filtered-total');
-            if(totalEl){totalEl.textContent=`Total Filtrado: ${formatCurrency(totalAmount)}`;totalEl.className=totalAmount>=0?'font-bold text-green-600':'font-bold text-red-600'}
+            
+            // ALTERAÇÃO: Lógica de cálculo e exibição de totais
+            const totalAmount = filteredData.reduce((sum, t) => {
+                if (cardType === 'overview-expenses') return sum + t.amount;
+                if (t.type === 'entrada') return sum + t.amount;
+                if (t.type === 'saida' || t.type === 'investimento') return sum - t.amount;
+                return sum;
+            }, 0);
+            
+            const totalFilteredEl = document.getElementById('modal-total-filtered');
+            if (totalFilteredEl) {
+                totalFilteredEl.textContent = formatCurrency(totalAmount);
+                totalFilteredEl.className = `text-lg font-bold ${totalAmount >= 0 ? 'text-green-600' : 'text-red-600'}`;
+            }
+
             filteredData.sort((a,b)=>{let valA=a[currentSort.key];let valB=b[currentSort.key];if(typeof valA==='string'){valA=valA.toLowerCase();valB=valB.toLowerCase()}if(valA<valB)return currentSort.direction==='asc'?-1:1;if(valA>valB)return currentSort.direction==='asc'?1:-1;return 0});
             currentFilteredModalData = filteredData;
             transactionsModalList.innerHTML = generateTransactionListHTML(filteredData, cardType);
@@ -582,8 +616,25 @@
             if(config.filters.includes('category')){const allCategories=[...new Set(modalTransactionData.map(t=>t.category))].sort();let options='<option value="all">Todas as Categorias</option>';allCategories.forEach(cat=>{options+=`<option value="${cat}">${cat}</option>`});mainFiltersHTML+=`<div class="flex-grow"><label for="modal-category-filter" class="text-sm font-medium text-gray-700">Categoria:</label><select id="modal-category-filter" class="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">${options}</select></div>`}
             if(config.filters.includes('subcategory')){const allSubcategories=[...new Set(modalTransactionData.map(t=>t.subcategory).filter(Boolean))].sort();let options='<option value="all">Todas as Subcategorias</option>';allSubcategories.forEach(sub=>{options+=`<option value="${sub}">${sub}</option>`});mainFiltersHTML+=`<div class="flex-grow"><label for="modal-subcategory-filter" class="text-sm font-medium text-gray-700">Subcategoria:</label><select id="modal-subcategory-filter" class="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">${options}</select></div>`}
             mainFiltersHTML+='</div>';filtersHTML+=mainFiltersHTML;
-            if(config.cardType==='balance'){filtersHTML+=`<div id="modal-filtered-total" class="text-right text-lg mt-3 p-2 rounded-md bg-gray-100"></div>`}
             filtersHTML+='</div>';transactionsModalFilters.innerHTML=filtersHTML;
+
+            // ALTERAÇÃO: Lógica para mostrar footer e calcular total do período
+            const modalFooter = document.getElementById('transactions-modal-footer');
+            const totalPeriodEl = document.getElementById('modal-total-period');
+            
+            const totalPeriodAmount = modalTransactionData.reduce((sum, t) => {
+                // Para o extrato de saídas, somamos os valores, em vez de subtrair
+                if (config.cardType === 'overview-expenses') return sum + t.amount;
+                // Para os demais, calculamos o saldo
+                if (t.type === 'entrada') return sum + t.amount;
+                if (t.type === 'saida' || t.type === 'investimento') return sum - t.amount;
+                return sum;
+            }, 0);
+
+            totalPeriodEl.textContent = formatCurrency(totalPeriodAmount);
+            totalPeriodEl.className = `text-lg font-bold ${totalPeriodAmount >= 0 ? 'text-gray-800' : 'text-red-700'}`;
+            modalFooter.classList.remove('hidden');
+
             const updateOnChange=()=>{applyFiltersAndRender(modalTransactionData, config.cardType)};
             document.querySelectorAll('.filter-type-btn').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('.filter-type-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');activeFilters.type=btn.dataset.type;updateOnChange()})});
             ['modal-start-date-filter','modal-end-date-filter','modal-category-filter','modal-subcategory-filter'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('change', (e) => { const filterType = e.target.id.split('-')[1]; activeFilters[filterType] = e.target.value; updateOnChange(); }); });
@@ -1106,7 +1157,6 @@
             }
         }));
         
-        // ALTERAÇÃO: Event Listeners para os novos cards clicáveis da Visão Geral
         const addOverviewCardListeners = () => {
             const getMonthTransactions = () => {
                 const currentMonth = currentPendingDate.getMonth();
@@ -1122,6 +1172,7 @@
                 const incomeTransactions = monthTransactions.filter(t => t.type === 'entrada');
                 const monthName = pendingMonthDisplay.textContent;
                 openTransactionsModal({
+                    cardType: 'overview-income',
                     title: `Entradas de ${monthName}`,
                     transactions: incomeTransactions,
                     filters: ['category', 'subcategory']
@@ -1133,6 +1184,7 @@
                 const expenseTransactions = monthTransactions.filter(t => t.type === 'saida');
                 const monthName = pendingMonthDisplay.textContent;
                 openTransactionsModal({
+                    cardType: 'overview-expenses',
                     title: `Saídas de ${monthName}`,
                     transactions: expenseTransactions,
                     filters: ['category', 'subcategory']
@@ -1143,6 +1195,7 @@
                 const monthTransactions = getMonthTransactions().filter(t => t.type === 'entrada' || t.type === 'saida');
                 const monthName = pendingMonthDisplay.textContent;
                 openTransactionsModal({
+                    cardType: 'overview-balance',
                     title: `Extrato de ${monthName}`,
                     transactions: monthTransactions,
                     filters: ['type', 'category', 'subcategory']
@@ -1316,7 +1369,6 @@
         });
         pendingModalList.addEventListener('click', handlePendingAction);
         
-        // CORREÇÃO: Lógica de abertura dos modais de dívida
         closeDebtManagementModalBtn.addEventListener('click', closeDebtManagementModal);
         debtManagementModal.addEventListener('click', (e) => { if(e.target === debtManagementModal) closeDebtManagementModal() });
         addNewDebtBtn.addEventListener('click', () => {
