@@ -135,9 +135,20 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-6">
-                    <div><p class="text-sm text-gray-500">Entradas</p><p id="overview-income" class="text-xl font-bold text-green-600 value-visible">R$ 0,00</p><p id="overview-income-pending" class="text-xs text-gray-500 value-visible h-4"></p></div>
-                    <div><p class="text-sm text-gray-500">Saídas</p><p id="overview-expenses" class="text-xl font-bold text-red-600 value-visible">R$ 0,00</p><p id="overview-expenses-pending" class="text-xs text-gray-500 value-visible h-4"></p></div>
-                    <div><p class="text-sm text-gray-500">Saldo do Mês</p><p id="overview-balance" class="text-xl font-bold text-blue-600 value-visible">R$ 0,00</p></div>
+                    <div id="overview-income-card" class="p-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                        <p class="text-sm text-gray-500">Entradas</p>
+                        <p id="overview-income" class="text-xl font-bold text-green-600 value-visible">R$ 0,00</p>
+                        <p id="overview-income-pending" class="text-xs text-gray-500 value-visible h-4"></p>
+                    </div>
+                    <div id="overview-expenses-card" class="p-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                        <p class="text-sm text-gray-500">Saídas</p>
+                        <p id="overview-expenses" class="text-xl font-bold text-red-600 value-visible">R$ 0,00</p>
+                        <p id="overview-expenses-pending" class="text-xs text-gray-500 value-visible h-4"></p>
+                    </div>
+                    <div id="overview-balance-card" class="p-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                        <p class="text-sm text-gray-500">Saldo do Mês</p>
+                        <p id="overview-balance" class="text-xl font-bold text-blue-600 value-visible">R$ 0,00</p>
+                        <div class="h-4"></div> </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
                     <div class="md:col-span-1 h-56 mx-auto"><canvas id="category-chart"></canvas></div>
@@ -285,6 +296,11 @@
         const overviewExpensesPendingEl = document.getElementById('overview-expenses-pending');
         const categoryChartCanvas = document.getElementById('category-chart');
         const budgetBarsContainer = document.getElementById('budget-bars-container');
+
+        // ALTERAÇÃO: Seletores para os novos cards clicáveis
+        const overviewIncomeCard = document.getElementById('overview-income-card');
+        const overviewExpensesCard = document.getElementById('overview-expenses-card');
+        const overviewBalanceCard = document.getElementById('overview-balance-card');
 
         let transactions = [];
         let fixedTransactionTemplates = [];
@@ -1089,6 +1105,51 @@
             }
         }));
         
+        // ALTERAÇÃO: Event Listeners para os novos cards clicáveis da Visão Geral
+        const addOverviewCardListeners = () => {
+            const getMonthTransactions = () => {
+                const currentMonth = currentPendingDate.getMonth();
+                const currentYear = currentPendingDate.getFullYear();
+                return transactions.filter(t => {
+                    const tDate = new Date(t.date + 'T00:00:00');
+                    return t.status === 'completed' && tDate.getMonth() === currentMonth && tDate.getFullYear() === currentYear;
+                });
+            };
+
+            overviewIncomeCard.addEventListener('click', () => {
+                const monthTransactions = getMonthTransactions();
+                const incomeTransactions = monthTransactions.filter(t => t.type === 'entrada');
+                const monthName = pendingMonthDisplay.textContent;
+                openTransactionsModal({
+                    title: `Entradas de ${monthName}`,
+                    transactions: incomeTransactions,
+                    filters: ['category', 'subcategory']
+                });
+            });
+
+            overviewExpensesCard.addEventListener('click', () => {
+                const monthTransactions = getMonthTransactions();
+                const expenseTransactions = monthTransactions.filter(t => t.type === 'saida');
+                const monthName = pendingMonthDisplay.textContent;
+                openTransactionsModal({
+                    title: `Saídas de ${monthName}`,
+                    transactions: expenseTransactions,
+                    filters: ['category', 'subcategory']
+                });
+            });
+
+            overviewBalanceCard.addEventListener('click', () => {
+                const monthTransactions = getMonthTransactions().filter(t => t.type === 'entrada' || t.type === 'saida');
+                const monthName = pendingMonthDisplay.textContent;
+                openTransactionsModal({
+                    title: `Extrato de ${monthName}`,
+                    transactions: monthTransactions,
+                    filters: ['type', 'category', 'subcategory']
+                });
+            });
+        };
+        addOverviewCardListeners();
+
         transactionForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!validateForm()) return;
@@ -1131,9 +1192,9 @@
                             iterations = customCount;
                         } else {
                             if (period === 'daily') iterations = 90;
-                            else if (period === 'weekly') iterations = 104;
+                            else if (period === 'weekly') iterations = 104; 
                             else if (period === 'yearly') iterations = 5;
-                            else iterations = 24;
+                            else iterations = 24; 
                         }
                         
                         for (let i = 0; i < iterations; i++) {
@@ -1254,7 +1315,7 @@
         });
         pendingModalList.addEventListener('click', handlePendingAction);
         
-        // CORREÇÃO: Listeners do modal de dívidas corrigidos e garantidos
+        // CORREÇÃO: Lógica de abertura dos modais de dívida
         closeDebtManagementModalBtn.addEventListener('click', closeDebtManagementModal);
         debtManagementModal.addEventListener('click', (e) => { if(e.target === debtManagementModal) closeDebtManagementModal() });
         addNewDebtBtn.addEventListener('click', () => {
@@ -1278,8 +1339,8 @@
             } else if (editBtn) {
                 e.stopPropagation();
                 const debtId = parseInt(editBtn.dataset.id);
-                closeDebtManagementModal(); // Fecha modal atual
-                openAddEditDebtModal(debtId); // Abre modal de edição
+                closeDebtManagementModal(); 
+                openAddEditDebtModal(debtId); 
             } else if (row) {
                 const debtId = parseInt(row.dataset.id);
                 openDebtDetailsModal(debtId);
