@@ -213,6 +213,7 @@
     </div>
 
     <script>
+    // SCRIPT COMPLETO COM TODAS AS CORREÇÕES E FUNCIONALIDADES
     document.addEventListener('DOMContentLoaded', () => {
         const { auth, database, provider, signInWithPopup, signOut, onAuthStateChanged, ref, set, get } = window.firebaseSDK;
         const loginScreen = document.getElementById('login-screen');
@@ -437,6 +438,7 @@
                     ? `<input type="number" step="0.01" data-amount-input-id="${t.id}" value="${t.amount.toFixed(2)}" class="w-28 border border-gray-300 rounded-md py-1 px-2 text-sm text-right font-semibold text-gray-800 focus:outline-none focus:ring-1 focus:ring-blue-500">`
                     : `<p class="font-semibold text-gray-800 text-sm">${formatCurrency(t.amount)}</p>`;
                 
+                // ALTERAÇÃO: Adiciona botão de editar
                 return `<div class="flex items-center justify-between p-2.5 bg-gray-50 rounded-lg border space-x-3">
                             <div class="flex-1 min-w-0">
                                 <p class="font-medium text-gray-800 text-sm truncate" title="${t.description || 'Transação Recorrente'}">${t.description || 'Transação Recorrente'}</p>
@@ -447,6 +449,7 @@
                             </div>
                             <div class="flex-shrink-0">${amountField}</div>
                             <div class="flex-shrink-0 flex items-center space-x-1">
+                                <button data-action="edit" data-id="${t.id}" title="Editar" class="p-1.5 text-blue-600 hover:bg-blue-100 rounded-full ${t.debtId ? 'hidden' : ''}"><svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L16.732 3.732z"></path></svg></button>
                                 <button data-action="approve" data-id="${t.id}" title="Aprovar" class="p-1.5 text-green-600 hover:bg-green-100 rounded-full"><svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></button>
                                 <button data-action="delete" data-id="${t.id}" title="Excluir" class="p-1.5 text-red-600 hover:bg-red-100 rounded-full"><svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
                             </div>
@@ -495,7 +498,6 @@
             updateOverviewCard();
         };
         
-        // ALTERAÇÃO: Adicionada coluna de Status e classe para pendentes
         const generateTransactionListHTML = (data, cardType) => {
             if(data.length===0) return '<p class="text-gray-500 text-center py-4">Nenhuma transação encontrada.</p>';
             let headers = [{key:'date',label:'Data'},{key:'description',label:'Descrição'},{key:'category',label:'Categoria'},{key:'amount',label:'Valor'}, {key:'status', label:'Status'}];
@@ -506,14 +508,14 @@
             
             const rowsHTML = data.map(t => {
                 let actionCell = '';
-                if (cardType === 'balance' && t.status === 'completed') { // Apenas para concluídas
+                if (cardType === 'balance' && t.status === 'completed') {
                     actionCell = `<td class="p-3 text-center">
                                         <button data-action="delete-transaction" data-id="${t.id}" class="p-1 text-gray-400 hover:text-red-600 rounded-full" title="Excluir Transação">
                                             <svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                         </button>
                                     </td>`;
                 } else if (cardType === 'balance') {
-                    actionCell = `<td class="p-3 text-center"></td>`; // Célula vazia para alinhar
+                    actionCell = `<td class="p-3 text-center"></td>`;
                 }
                 const statusCell = `<td class="p-3 text-center"><span class="px-2 py-1 text-xs font-semibold rounded-full ${t.status === 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">${t.status === 'completed' ? 'Concluído' : 'Pendente'}</span></td>`;
                 const rowClass = t.status === 'pending' ? 'bg-yellow-50/50 opacity-80 hover:opacity-100' : 'hover:bg-gray-50';
@@ -531,14 +533,23 @@
             return `<div class="overflow-x-auto"><table class="w-full"><thead class="bg-gray-100"><tr>${headerHTML}</tr></thead><tbody id="transaction-list-body">${rowsHTML}</tbody></table></div>`;
         };
         
+        // ALTERAÇÃO: Adicionado o caso 'edit'
         const handlePendingAction = async (e) => {
             const button = e.target.closest('button[data-action]');
             if (!button) return;
             const { action, id } = button.dataset;
             const transactionId = parseInt(id);
+            
+            if (action === 'edit') {
+                pendingTransactionsModal.classList.add('hidden');
+                openModalForEdit(transactionId, true); 
+                return;
+            }
+
             const transactionIndex = transactions.findIndex(t => t.id === transactionId);
             if (transactionIndex === -1) return;
             const transaction = transactions[transactionIndex];
+            
             if (action === 'approve') {
                 if(transaction.isVariable && !transaction.debtId){const inputEl=document.querySelector(`input[data-amount-input-id="${transactionId}"]`);if(inputEl){const newAmount=parseFloat(inputEl.value);if(!isNaN(newAmount)&&newAmount>0){transaction.amount=newAmount}else{inputEl.focus();inputEl.classList.add('invalid-field');setTimeout(()=>inputEl.classList.remove('invalid-field'),2000);return}}}
                 transaction.status = 'completed';
@@ -582,7 +593,8 @@
             if (activeFilters.subcategory !== 'all') filteredData = filteredData.filter(t => t.subcategory === activeFilters.subcategory);
             
             const totalAmount = filteredData.reduce((sum, t) => {
-                if (cardType === 'overview-expenses' || cardType === 'overview-income' || t.type === 'entrada') return sum + t.amount;
+                if (cardType === 'overview-expenses' || cardType === 'overview-income') return sum + t.amount;
+                if (t.type === 'entrada') return sum + t.amount;
                 if (t.type === 'saida' || t.type === 'investimento') return sum - t.amount;
                 return sum;
             }, 0);
@@ -650,11 +662,17 @@
 
         const openModal = () => { transactionModal.classList.remove('hidden'); if (!dateInput.value) dateInput.value = new Date().toISOString().split('T')[0]; setDefaultTransactionType(); };
         const closeModal = () => { transactionModal.classList.add('hidden'); transactionForm.reset(); resetTypeButtons(); isVariableContainer.classList.add('hidden'); recurrencePeriodContainer.classList.add('hidden'); recurrenceCountContainer.classList.add('hidden'); selectedTransactionType=null; document.querySelectorAll('.invalid-field').forEach(el => el.classList.remove('invalid-field')); formErrorMessage.classList.add('hidden'); editingTransactionId=null; document.getElementById('modal-headline').textContent='Nova Transação'; transactionForm.querySelector('button[type="submit"]').textContent='Adicionar Transação'; isFixedCheckbox.disabled=false; document.getElementById('is-variable').disabled=false; };
-
-        const openModalForEdit = (transactionId) => {
+        
+        // ALTERAÇÃO: Permite abrir modal de edição para transações pendentes
+        const openModalForEdit = (transactionId, isFromPendingModal = false) => {
             const transaction = transactions.find(t => t.id === transactionId);
-            if (!transaction || transaction.status !== 'completed') { if(transaction?.status==='pending') showGenericModal({type:'alert',title:'Aviso',message:'Não é possível editar uma transação pendente. Aprove-a primeiro.'}); return; };
-            if (transaction.debtId) { showGenericModal({type:'alert',title:'Aviso',message:'Pagamentos de dívidas não podem ser editados diretamente.'}); return; }
+            if (!transaction) return;
+
+            if (transaction.debtId) { 
+                showGenericModal({type:'alert',title:'Aviso',message:'Pagamentos de dívidas não podem ser editados diretamente.'}); 
+                return; 
+            }
+
             editingTransactionId = transactionId;
             document.getElementById('modal-headline').textContent = 'Editar Transação';
             transactionForm.querySelector('button[type="submit"]').textContent = 'Salvar Alterações';
@@ -665,20 +683,27 @@
             dateInput.value = transaction.date;
             document.getElementById('description').value = transaction.description || '';
             setTimeout(() => { categorySelect.value=transaction.category; populateSubcategories(); subcategorySelect.value=transaction.subcategory||''; if(transaction.type==='saida'){paymentMethodSelect.value=transaction['payment-method']||''} }, 10);
+            
             isFixedCheckbox.checked = transaction.isFixed;
-            isFixedCheckbox.disabled = true;
             isVariableContainer.classList.toggle('hidden', !transaction.isFixed);
             recurrencePeriodContainer.classList.toggle('hidden', !transaction.isFixed);
             recurrenceCountContainer.classList.toggle('hidden', !transaction.isFixed);
+
+            isFixedCheckbox.disabled = true;
+            document.getElementById('recurrence-period').disabled = true;
+            document.getElementById('recurrence-count').disabled = true;
+
             if (transaction.isFixed) {
                 document.getElementById('recurrence-period').value = transaction.recurrencePeriod || 'monthly';
                 document.getElementById('recurrence-count').value = transaction.recurrenceCount || '';
             }
-            document.getElementById('recurrence-period').disabled = true;
-            document.getElementById('recurrence-count').disabled = true;
+            
             document.getElementById('is-variable').checked = transaction.isVariable;
             document.getElementById('is-variable').disabled = true;
-            closeTransactionsModal();
+
+            if (!isFromPendingModal) {
+                closeTransactionsModal();
+            }
             transactionModal.classList.remove('hidden');
         };
 
@@ -810,7 +835,6 @@
             }
         };
 
-        // ALTERAÇÃO: Atualiza a visão geral para mostrar totais projetados
         const updateOverviewCard = () => {
             const monthName = currentPendingDate.toLocaleString('pt-BR', { month: 'long' });
             const year = currentPendingDate.getFullYear();
@@ -862,7 +886,7 @@
                 const totalSpent = spentCompleted + spentPending;
                 const completedPercent = (spentCompleted / budgetAmount) * 100;
                 const pendingPercent = (spentPending / budgetAmount) * 100;
-                budgetBarsContainer.innerHTML += `<div class="budget-bar-container rounded-md p-2 cursor-pointer" data-category="${category}"><div class="flex justify-between items-center mb-1 text-sm"><span class="font-semibold text-gray-700">${category}</span><span class="text-gray-500"><span class="value-visible font-medium text-gray-800">${formatCurrency(totalSpent)}</span> / ${formatCurrency(budgetAmount)}</span></div><div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden flex"><div class="bg-green-500 h-4" style="width:${Math.min(completedPercent,100)}%"></div><div class="bg-gray-400 h-4" style="width:${Math.min(pendingPercent,100-completedPercent)}%"></div></div></div>`;
+                budgetBarsContainer.innerHTML += `<div class="budget-bar-container rounded-md p-2 cursor-pointer" data-category="${category}"><div class="flex justify-between items-center mb-1 text-sm"><span class="font-semibold text-gray-700">${category}</span><span class="text-gray-500"><span class="value-visible font-medium text-gray-800">${formatCurrency(totalSpent)}</span> / ${formatCurrency(budgetAmount)}</span></div><div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden flex"><div class="bg-green-500 h-4" style="width:${Math.min(completedPercent,100)}%"></div><div class="bg-yellow-400 h-4" style="width:${Math.min(pendingPercent,100-completedPercent)}%"></div></div></div>`;
             });
             const allExpenseCategoriesThisMonth = [...new Set(transactionsThisMonth.filter(t => t.type === 'saida').map(t => t.category))];
             const unbudgetedCategories = allExpenseCategoriesThisMonth.filter(cat => !budgetedCategories.includes(cat) || !settings.budgets[cat]);
@@ -1148,7 +1172,7 @@
             }
             const cardType = card.dataset.cardType;
             switch (cardType) {
-                case 'balance': openTransactionsModal({ cardType: 'balance', title: 'Extrato Completo', transactions: transactions.filter(t => t.status === 'completed'), filters: ['period', 'type', 'category', 'subcategory'] }); break;
+                case 'balance': openTransactionsModal({ cardType: 'balance', title: 'Extrato Completo', transactions: transactions, filters: ['period', 'type', 'category', 'subcategory'] }); break; // Mostra todas
                 case 'investments': openTransactionsModal({ cardType: 'investments', title: 'Total Investido', transactions: transactions.filter(t => t.status === 'completed' && t.type === 'investimento'), filters: [] }); break;
                 case 'invoice': 
                     const { startDate, endDate } = getInvoicePeriod(invoiceMonthOffset);
@@ -1164,7 +1188,6 @@
             }
         }));
         
-        // ALTERAÇÃO: Helper e listeners dos cards de resumo
         const addOverviewCardListeners = () => {
             const getMonthTransactions = (includePending = false) => {
                 const currentMonth = currentPendingDate.getMonth();
