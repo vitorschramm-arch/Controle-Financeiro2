@@ -148,7 +148,8 @@
                     <div id="overview-balance-card" class="p-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
                         <p class="text-sm text-gray-500">Saldo do Mês</p>
                         <p id="overview-balance" class="text-xl font-bold text-blue-600 value-visible">R$ 0,00</p>
-                        <div class="h-4"></div> </div>
+                        <div class="h-4"></div>
+                    </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
                     <div class="md:col-span-1 h-56 mx-auto"><canvas id="category-chart"></canvas></div>
@@ -188,7 +189,7 @@
         </div>
 
     </div>
-
+    
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         const { auth, database, provider, signInWithPopup, signOut, onAuthStateChanged, ref, set, get } = window.firebaseSDK;
