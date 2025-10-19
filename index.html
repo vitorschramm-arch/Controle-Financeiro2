@@ -126,7 +126,11 @@
                             <button id="next-month-btn" class="p-1 rounded-full hover:bg-gray-200"><svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button>
                         </div>
                     </div>
-                    <div class="flex items-center space-x-2">
+                    <div class="flex items-center space-x-4">
+                        <div class="text-right">
+                             <p class="text-xs text-gray-500">Orçamento Total</p>
+                             <p id="overview-budget-value" class="font-bold text-gray-700 value-visible">R$ 0,00</p>
+                        </div>
                         <button id="view-pending-btn" class="relative text-sm font-semibold text-blue-600 hover:text-blue-800 bg-blue-100 hover:bg-blue-200 px-3 py-1.5 rounded-md hidden">
                             Ver Pendentes
                             <span id="pending-count-badge" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
@@ -323,6 +327,8 @@
         const overviewIncomeCard = document.getElementById('overview-income-card');
         const overviewExpensesCard = document.getElementById('overview-expenses-card');
         const overviewBalanceCard = document.getElementById('overview-balance-card');
+        // ALTERAÇÃO: Novo seletor para o campo de orçamento total
+        const overviewBudgetValueEl = document.getElementById('overview-budget-value');
 
         let transactions = [];
         let fixedTransactionTemplates = [];
@@ -495,8 +501,7 @@
             debtsValueEl.textContent = formatCurrency(totalDebtBalance);
             updateOverviewCard();
         };
-
-        // ALTERAÇÃO: Adicionada classe de cor e status
+        
         const generateTransactionListHTML = (data, cardType) => {
             if (data.length === 0) return '<p class="text-gray-500 text-center py-4">Nenhuma transação encontrada.</p>';
             let headers = [{ key: 'date', label: 'Data' }, { key: 'description', label: 'Descrição' }, { key: 'category', label: 'Categoria' }, { key: 'amount', label: 'Valor' }, { key: 'status', label: 'Status' }];
@@ -703,8 +708,7 @@
             }
             
             document.getElementById('is-variable').checked = transaction.isVariable;
-            // Só habilita o checkbox de valor variável se não for uma dívida
-            document.getElementById('is-variable').disabled = !!transaction.debtId;
+            document.getElementById('is-variable').disabled = !!transaction.debtId || transaction.status === 'completed'; // Só habilita se for pendente e não for divida
 
             if (!isFromPendingModal) {
                 closeTransactionsModal();
@@ -904,6 +908,12 @@
                 budgetBarsContainer.innerHTML += unbudgetedHTML;
             }
             if(settings.savingsGoal > 0){ const savedAmount = income - expenses; const savedPercent=Math.max(0,(savedAmount/settings.savingsGoal)*100); budgetBarsContainer.innerHTML+=`<div class="mt-6 border-t pt-4"><div class="flex justify-between items-center mb-1 text-sm"><span class="font-semibold text-gray-700">Meta de Economia</span><span class="text-gray-500"><span class="value-visible font-medium text-gray-800">${formatCurrency(savedAmount)}</span> / ${formatCurrency(settings.savingsGoal)}</span></div><div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden"><div class="bg-blue-500 h-4" style="width:${Math.min(savedPercent,100)}%"></div></div></div>`; }
+            
+            // ALTERAÇÃO: Calcula e exibe o orçamento total
+            const totalBudget = Object.values(settings.budgets || {}).reduce((sum, budget) => sum + parseFloat(budget || 0), 0);
+            if (overviewBudgetValueEl) {
+                overviewBudgetValueEl.textContent = formatCurrency(totalBudget);
+            }
         };
 
         const openForecastModal = () => { calculateAndRenderForecast(); forecastModal.classList.remove('hidden'); };
@@ -1255,7 +1265,8 @@
                 if (editingTransactionId) {
                     const transactionIndex = transactions.findIndex(t => t.id === editingTransactionId);
                     if (transactionIndex > -1) {
-                        transactions[transactionIndex] = { ...transactions[transactionIndex], ...transactionData };
+                        const originalStatus = transactions[transactionIndex].status;
+                        transactions[transactionIndex] = { ...transactions[transactionIndex], ...transactionData, status: originalStatus };
                     }
                 } else {
                     const isFixed = isFixedCheckbox.checked;
