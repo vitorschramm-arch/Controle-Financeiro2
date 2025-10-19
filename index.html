@@ -112,7 +112,10 @@
                             </div>
                             <p id="invoice-value" class="text-2xl font-bold text-gray-800 value-visible">R$ 0,00</p>
                         </div>
-                        <button class="toggle-visibility-btn text-gray-400 hover:text-gray-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></button>
+                        <div class="flex items-center space-x-2">
+                           <button id="quick-add-invoice-btn" title="Lançamento Rápido na Fatura" class="p-2 text-blue-500 hover:bg-blue-100 rounded-full"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></button>
+                            <button class="toggle-visibility-btn text-gray-400 hover:text-gray-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg></button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -211,6 +214,27 @@
                 </div>
                 <div id="pending-modal-list" class="overflow-y-auto flex-grow">
                 </div>
+            </div>
+        </div>
+
+        <div id="quick-invoice-modal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50 p-4">
+            <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">Novo Gasto na Fatura</h2>
+                    <button id="close-quick-invoice-modal-btn" class="text-gray-500 hover:text-gray-800">&times;</button>
+                </div>
+                <form id="quick-invoice-form" novalidate class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label for="quick-amount" class="block text-sm font-medium text-gray-700">Valor</label><input type="number" id="quick-amount" step="0.01" placeholder="R$ 0,00" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div>
+                        <div><label for="quick-date" class="block text-sm font-medium text-gray-700">Data</label><input type="date" id="quick-date" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></div>
+                    </div>
+                     <div class="grid grid-cols-2 gap-4">
+                        <div><label for="quick-category" class="block text-sm font-medium text-gray-700">Categoria</label><select id="quick-category" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"><option value="">Selecione</option></select></div>
+                        <div><label for="quick-subcategory" class="block text-sm font-medium text-gray-700">Subcategoria</label><select id="quick-subcategory" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"><option value="">Selecione</option></select></div>
+                    </div>
+                    <div><label for="quick-description" class="block text-sm font-medium text-gray-700">Descrição</label><textarea id="quick-description" rows="2" placeholder="Ex: Jantar no restaurante" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea></div>
+                    <div class="pt-2"><button type="submit" class="w-full bg-blue-600 text-white py-2.5 px-4 rounded-md hover:bg-blue-700">Adicionar à Fatura</button></div>
+                </form>
             </div>
         </div>
 
@@ -323,12 +347,17 @@
         const overviewExpensesPendingEl = document.getElementById('overview-expenses-pending');
         const categoryChartCanvas = document.getElementById('category-chart');
         const budgetBarsContainer = document.getElementById('budget-bars-container');
+        const overviewBudgetValueEl = document.getElementById('overview-budget-value');
         
+        const quickInvoiceModal = document.getElementById('quick-invoice-modal');
+        const closeQuickInvoiceModalBtn = document.getElementById('close-quick-invoice-modal-btn');
+        const quickInvoiceForm = document.getElementById('quick-invoice-form');
+        const quickAddInvoiceBtn = document.getElementById('quick-add-invoice-btn');
+
+
         const overviewIncomeCard = document.getElementById('overview-income-card');
         const overviewExpensesCard = document.getElementById('overview-expenses-card');
         const overviewBalanceCard = document.getElementById('overview-balance-card');
-        // ALTERAÇÃO: Novo seletor para o campo de orçamento total
-        const overviewBudgetValueEl = document.getElementById('overview-budget-value');
 
         let transactions = [];
         let fixedTransactionTemplates = [];
@@ -348,10 +377,10 @@
         let editingDebtId = null;
         let viewingDebtId = null;
         
-        const defaultSettings = { invoiceClosingDay: 1, savingsGoal: 0, budgets: {} };
+        const defaultSettings = { invoiceClosingDay: 20, invoicePaymentDay: 27, savingsGoal: 0, budgets: {} };
         const defaultCategories = {
             'entrada': { 'Salário': ['Adiantamento', 'Salário Mensal', 'Bônus', 'Férias'],'Investimentos': ['Dividendos', 'Venda de Ativos', 'Juros'],'Outras Receitas': ['Freelance', 'Vendas', 'Presente', 'Reembolso']},
-            'saida': {'Alimentação': ['Supermercado', 'Restaurante', 'Delivery', 'Lanche'],'Moradia': ['Aluguel', 'Condomínio', 'Luz', 'Água', 'Internet', 'Gás', 'Manutenção'],'Transporte': ['Combustível', 'App de Transporte', 'Transporte Público', 'Manutenção Veículo'],'Lazer': ['Cinema', 'Shows', 'Viagens', 'Hobbies', 'Streaming'],'Saúde': ['Farmácia', 'Consulta', 'Plano de Saúde', 'Academia'],'Educação': ['Cursos', 'Livros', 'Mensalidade'],'Compras': ['Roupas', 'Eletrônicos', 'Casa', 'Pets'],'Dívidas': ['Parcela Empréstimo', 'Parcela Financiamento', 'Entrada Financiamento'],'Outras Despesas': ['Impostos', 'Presentes', 'Doações', 'Serviços']},
+            'saida': {'Alimentação': ['Supermercado', 'Restaurante', 'Delivery', 'Lanche'],'Moradia': ['Aluguel', 'Condomínio', 'Luz', 'Água', 'Internet', 'Gás', 'Manutenção'],'Transporte': ['Combustível', 'App de Transporte', 'Transporte Público', 'Manutenção Veículo'],'Lazer': ['Cinema', 'Shows', 'Viagens', 'Hobbies', 'Streaming'],'Saúde': ['Farmácia', 'Consulta', 'Plano de Saúde', 'Academia'],'Educação': ['Cursos', 'Livros', 'Mensalidade'],'Compras': ['Roupas', 'Eletrônicos', 'Casa', 'Pets'],'Dívidas': ['Parcela Empréstimo', 'Parcela Financiamento', 'Entrada Financiamento', 'Fatura do Cartão'],'Outras Despesas': ['Impostos', 'Presentes', 'Doações', 'Serviços']},
             'investimento': {'Renda Fixa': ['CDB', 'Tesouro Direto', 'LCI/LCA'],'Renda Variável': ['Ações', 'Fundos Imobiliários', 'ETFs'],'Outros': ['Criptomoedas', 'Previdência Privada']}
         };
         
@@ -385,6 +414,7 @@
                 console.error("Firebase load error:", error);
                 showGenericModal({type: 'alert', title: 'Erro ao Carregar', message: 'Não foi possível carregar seus dados.'});
             }
+            await generatePendingInvoicePayments();
             updateDashboard();
         };
         
@@ -479,17 +509,25 @@
         };
         
         const updateDashboard = () => {
-            const completedTransactions = transactions.filter(t => t.status === 'completed');
-            const totalEntradas = completedTransactions.filter(t => t.type === 'entrada').reduce((acc, t) => acc + t.amount, 0);
-            const totalSaidas = completedTransactions.filter(t => t.type === 'saida' || t.type === 'investimento').reduce((acc, t) => acc + t.amount, 0);
-            const totalInvestido = completedTransactions.filter(t => t.type === 'investimento').reduce((acc, t) => acc + t.amount, 0);
+            const today = new Date();
+            today.setHours(0,0,0,0);
+
+            // ALTERAÇÃO: Filtra transações até a data atual para o saldo
+            const transactionsForBalance = transactions.filter(t => {
+                const tDate = new Date(t.date + 'T00:00:00');
+                return t.status === 'completed' && tDate <= today && t['payment-method'] !== 'Cartão de Crédito';
+            });
+
+            const totalEntradas = transactionsForBalance.filter(t => t.type === 'entrada').reduce((acc, t) => acc + t.amount, 0);
+            const totalSaidas = transactionsForBalance.filter(t => t.type === 'saida' || t.type === 'investimento').reduce((acc, t) => acc + t.amount, 0);
+            const totalInvestido = transactions.filter(t => t.status === 'completed' && t.type === 'investimento').reduce((acc, t) => acc + t.amount, 0);
             const totalDebtBalance = debts.reduce((sum, debt) => debt.installments.filter(p => p.status === 'pending').reduce((s, p) => s + p.principal, 0) + sum, 0);
             
             const { startDate, endDate } = getInvoicePeriod(invoiceMonthOffset);
             invoicePeriodDisplay.textContent = endDate.toLocaleString('pt-BR', { month: 'short', year: '2-digit' }).toUpperCase();
             prevInvoiceBtn.disabled = invoiceMonthOffset === 0;
 
-            const faturaAtual = completedTransactions.filter(t => {
+            const faturaAtual = transactions.filter(t => {
                 if (t['payment-method'] !== 'Cartão de Crédito') return false;
                 const tDate = new Date(t.date + 'T00:00:00');
                 return tDate >= startDate && tDate <= endDate;
@@ -501,7 +539,7 @@
             debtsValueEl.textContent = formatCurrency(totalDebtBalance);
             updateOverviewCard();
         };
-        
+
         const generateTransactionListHTML = (data, cardType) => {
             if (data.length === 0) return '<p class="text-gray-500 text-center py-4">Nenhuma transação encontrada.</p>';
             let headers = [{ key: 'date', label: 'Data' }, { key: 'description', label: 'Descrição' }, { key: 'category', label: 'Categoria' }, { key: 'amount', label: 'Valor' }, { key: 'status', label: 'Status' }];
@@ -708,7 +746,7 @@
             }
             
             document.getElementById('is-variable').checked = transaction.isVariable;
-            document.getElementById('is-variable').disabled = !!transaction.debtId || transaction.status === 'completed'; // Só habilita se for pendente e não for divida
+            document.getElementById('is-variable').disabled = !!transaction.debtId || transaction.status === 'completed';
 
             if (!isFromPendingModal) {
                 closeTransactionsModal();
@@ -909,7 +947,6 @@
             }
             if(settings.savingsGoal > 0){ const savedAmount = income - expenses; const savedPercent=Math.max(0,(savedAmount/settings.savingsGoal)*100); budgetBarsContainer.innerHTML+=`<div class="mt-6 border-t pt-4"><div class="flex justify-between items-center mb-1 text-sm"><span class="font-semibold text-gray-700">Meta de Economia</span><span class="text-gray-500"><span class="value-visible font-medium text-gray-800">${formatCurrency(savedAmount)}</span> / ${formatCurrency(settings.savingsGoal)}</span></div><div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden"><div class="bg-blue-500 h-4" style="width:${Math.min(savedPercent,100)}%"></div></div></div>`; }
             
-            // ALTERAÇÃO: Calcula e exibe o orçamento total
             const totalBudget = Object.values(settings.budgets || {}).reduce((sum, budget) => sum + parseFloat(budget || 0), 0);
             if (overviewBudgetValueEl) {
                 overviewBudgetValueEl.textContent = formatCurrency(totalBudget);
@@ -1182,7 +1219,7 @@
         nextInvoiceBtn.addEventListener('click', () => { invoiceMonthOffset++; updateDashboard(); });
 
         cards.forEach(card => card.addEventListener('click', (e) => {
-            if (e.target.closest('#prev-invoice-btn') || e.target.closest('#next-invoice-btn')) {
+            if (e.target.closest('#prev-invoice-btn') || e.target.closest('#next-invoice-btn') || e.target.closest('#quick-add-invoice-btn')) {
                 return;
             }
             const cardType = card.dataset.cardType;
@@ -1192,7 +1229,7 @@
                 case 'invoice': 
                     const { startDate, endDate } = getInvoicePeriod(invoiceMonthOffset);
                     const invoiceTransactions = transactions.filter(t => {
-                        if (t.status !== 'completed' || t['payment-method'] !== 'Cartão de Crédito') return false;
+                        if (t['payment-method'] !== 'Cartão de Crédito') return false;
                         const tDate = new Date(t.date + 'T00:00:00');
                         return tDate >= startDate && tDate <= endDate;
                     });
@@ -1498,6 +1535,72 @@
             updateDashboard();
             closeAddEditDebtModal();
             renderDebtManagementList();
+        });
+
+        // ALTERAÇÃO: Listeners para o novo modal de lançamento rápido
+        quickAddInvoiceBtn.addEventListener('click', () => {
+            quickInvoiceForm.reset();
+            const quickCategorySelect = document.getElementById('quick-category');
+            quickCategorySelect.innerHTML = '<option value="">Selecione</option>';
+            if(categoryData['saida']){
+                Object.keys(categoryData['saida']).sort().forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat;
+                    option.textContent = cat;
+                    quickCategorySelect.appendChild(option);
+                });
+            }
+            document.getElementById('quick-date').value = new Date().toISOString().split('T')[0];
+            quickInvoiceModal.classList.remove('hidden');
+        });
+
+        closeQuickInvoiceModalBtn.addEventListener('click', () => quickInvoiceModal.classList.add('hidden'));
+        quickInvoiceModal.addEventListener('click', e => { if(e.target === quickInvoiceModal) quickInvoiceModal.classList.add('hidden')});
+        
+        document.getElementById('quick-category').addEventListener('change', () => {
+            const subcatSelect = document.getElementById('quick-subcategory');
+            const selectedCategory = document.getElementById('quick-category').value;
+            subcatSelect.innerHTML = '<option value="">Selecione</option>';
+             if(selectedCategory && categoryData['saida']?.[selectedCategory]){
+                categoryData['saida'][selectedCategory].sort().forEach(sub => {
+                    const option = document.createElement('option');
+                    option.value = sub;
+                    option.textContent = sub;
+                    subcatSelect.appendChild(option);
+                });
+            }
+        });
+
+        quickInvoiceForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const amount = parseFloat(document.getElementById('quick-amount').value);
+            const date = document.getElementById('quick-date').value;
+            const category = document.getElementById('quick-category').value;
+            const description = document.getElementById('quick-description').value;
+
+            if (!amount || amount <= 0 || !date || !category || !description) {
+                showGenericModal({type: 'alert', title: 'Erro', message: 'Preencha todos os campos obrigatórios.'});
+                return;
+            }
+
+            const transactionData = {
+                id: Date.now(),
+                amount,
+                date,
+                category,
+                subcategory: document.getElementById('quick-subcategory').value || "",
+                description,
+                type: 'saida',
+                'payment-method': 'Cartão de Crédito',
+                status: 'completed',
+                isFixed: false,
+                isVariable: false
+            };
+
+            transactions.push(transactionData);
+            await saveData();
+            updateDashboard();
+            quickInvoiceModal.classList.add('hidden');
         });
     });
     </script>
